@@ -2,10 +2,6 @@
     // Your script logic if any
 </script>
 
-<style>
-    /* Optional custom styles */
-</style>
-
 <!-- Hero Section -->
 <section class="bg-gray-100 py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
     <h1 class="mb-6 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Welcome to BlogVerse</h1>
@@ -42,21 +38,15 @@
 <section class="bg-gray-50 py-8 px-4 mx-auto max-w-screen-xl text-center">
   <h2 class="text-3xl font-bold mb-6 text-gray-800">What Our Users Say</h2>
   <div class="flex flex-col space-y-6">
-    <div
-      class="bg-yellow-300 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
-    >
+    <div class="bg-yellow-300 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
       <p class="text-gray-600 italic">
-        "BlogVerse has transformed the way I share my content. The pay-to-view
-        model is fantastic!"
+        "BlogVerse has transformed the way I share my content. The pay-to-view model is fantastic!"
       </p>
       <p class="mt-4 font-semibold text-gray-800">- Sitara</p>
     </div>
-    <div
-      class="bg-yellow-300 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
-    >
+    <div class="bg-yellow-300 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
       <p class="text-gray-600 italic">
-        "The blockchain payment system is secure and seamless. Highly
-        recommend!"
+        "The blockchain payment system is secure and seamless. Highly recommend!"
       </p>
       <p class="mt-4 font-semibold text-gray-800">- Divya</p>
     </div>
@@ -65,14 +55,11 @@
 
 <!-- Call-to-Action Section -->
 <section class="bg-blue-500 py-8 px-4 mx-auto max-w-screen-xl text-center text-white">
-    
-    
     <h2 class="text-3xl font-bold mb-6">Ready to Get Started?</h2>
     <p class="mb-8 text-lg">Join the BlogVerse community today and start sharing your stories with the world!</p>
     <a href="http://localhost:5173/SignUp" class="inline-flex justify-center items-center py-3 px-5 text-base font-bold text-center bg-white text-blue-500 rounded-lg border border-blue-500 hover:bg-gray-100 focus:ring-4 focus:ring-blue-300 shadow-md transition-transform transform hover:scale-105">
         Sign Up Now
     </a>
-
 </section>
 
 <!-- Latest Blogs Section -->
@@ -93,14 +80,11 @@
 </section>
 
 <!-- Newsletter Signup Section -->
-<section
-  class="bg-gray-100 py-8 px-4 mx-auto max-w-screen-xl text-center pb-24"
->
+<section class="bg-gray-100 py-8 px-4 mx-auto max-w-screen-xl text-center pb-24">
   <!-- Added padding-bottom here -->
   <h2 class="text-3xl font-bold mb-6 text-gray-800">Stay Updated</h2>
   <p class="mb-8 text-lg">
-    Sign up for our newsletter to receive the latest updates and blog posts
-    directly to your inbox.
+    Sign up for our newsletter to receive the latest updates and blog posts directly to your inbox.
   </p>
   <form class="flex justify-center">
     <input
@@ -112,11 +96,14 @@
     <button
       type="submit"
       class="py-2 px-4 bg-blue-500 text-white rounded-r-lg border border-blue-500 hover:bg-blue-600"
-      >Subscribe</button
-    >
+      >Subscribe</button>
   </form>
 </section>
 
 <style>
-  /* Optional custom styles */
+  /* Combine all your custom styles here */
+  * {
+    /* Your combined styles */
+  }
 </style>
+
