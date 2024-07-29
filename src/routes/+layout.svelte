@@ -11,6 +11,8 @@
 <Navbar/>
 <slot />
 <Footer /> -->
+
+
 <script>
   import { onMount } from 'svelte';
   import { createAuthContext, getAuthContext } from '../stores/authcontext';
@@ -27,7 +29,7 @@
    */
   let authState;
 
-  $: isAuthenticated.subscribe(value => {
+  $: isAuthenticated.subscribe((/** @type {any} */ value) => {
     authState = value;
   });
 </script>
@@ -38,7 +40,15 @@
   <Navbar />
 {/if}
 <slot />
-<Footer />
+<Footer />s
+
+
+
+
+
+
+
+
 
 
 

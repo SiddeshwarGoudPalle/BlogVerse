@@ -10,3 +10,4 @@ export const createAuthContext = () => {
 };
 
 export const getAuthContext = () => getContext(AuthContext);
+
