@@ -1,5 +1,8 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from "svelte";
+  import axios from "../../axios/AxiosSetup";
+  import { ApiConstants } from "../../api/apiConstants";
+  import { onMount } from "svelte";
 
   let email = "";
   let username = "";
@@ -11,8 +14,11 @@
   let showChangePassword = false;
 
   let emailAlert = "";
+  let emailAlertSuccess = false;
   let usernameAlert = "";
+  let usernameAlertSuccess = false;
   let passwordAlert = "";
+  let passwordAlertSuccess = false;
 
   const dispatch = createEventDispatcher();
 
@@ -37,40 +43,57 @@
     passwordAlert = "";
   }
 
-  function validateEmail() {
-    // Placeholder validation logic
-    if (email === "existing@example.com") {
-      emailAlert = "This email is connected to an existing account";
-    } else {
-      emailAlert = "";
-      // dispatch the change email event
-      dispatch("changeEmail", email);
+  async function validateEmail() {
+    try {
+      const response = await axios.patch(ApiConstants.Auth.UPDATE_EMAIL, {
+        newEmail: email,
+      });
+      emailAlert = response.data.message;
+      emailAlertSuccess = true;
+      showChangeEmail = false;
+    } catch (error) {
+      emailAlert = error.response?.data?.message || "Failed to update email";
+      emailAlertSuccess = false;
     }
   }
 
-  function validateUsername() {
-    // Placeholder validation logic
-    if (username === "existinguser") {
-      usernameAlert = "This Username already exists! Use another one";
-    } else {
-      usernameAlert = "";
-      // dispatch the change username event
-      dispatch("changeUsername", username);
+  async function validateUsername() {
+    try {
+      const response = await axios.patch(ApiConstants.Auth.UPDATE_USERNAME, {
+        newUsername: username,
+      });
+      usernameAlert = response.data.message;
+      usernameAlertSuccess = true;
+      showChangeUsername = false;
+    } catch (error) {
+      usernameAlert =
+        error.response?.data?.message || "Failed to update username";
+      usernameAlertSuccess = false;
     }
   }
 
-  function validatePassword() {
-    // Placeholder validation logic
-    if (oldPassword !== "correctpassword") {
-      passwordAlert = "Wrong Password";
-    } else if (oldPassword === newPassword) {
-      passwordAlert = "Old password and new password can't be the same";
-    } else {
-      passwordAlert = "";
-      // dispatch the change password event
-      dispatch("changePassword", { oldPassword, newPassword });
+  async function validatePassword() {
+    try {
+      const response = await axios.patch(ApiConstants.Auth.UPDATE_PASSWORD, {
+        oldPassword,
+        newPassword,
+      });
+      passwordAlert = response.data.message;
+      passwordAlertSuccess = true;
+      showChangePassword = false;
+    } catch (error) {
+      passwordAlert =
+        error.response?.data?.message || "Failed to update password";
+      passwordAlertSuccess = false;
     }
   }
+
+  onMount(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/login";
+    }
+  });
 </script>
 
 <div
@@ -87,7 +110,9 @@
     {#if showChangeEmail}
       <div class="mt-4">
         {#if emailAlert}
-          <div class="alert">{emailAlert}</div>
+          <div class="alert" class:success={emailAlertSuccess}>
+            {emailAlert}
+          </div>
         {/if}
         <input
           type="email"
@@ -113,7 +138,9 @@
     {#if showChangeUsername}
       <div class="mt-4">
         {#if usernameAlert}
-          <div class="alert">{usernameAlert}</div>
+          <div class="alert" class:success={usernameAlertSuccess}>
+            {usernameAlert}
+          </div>
         {/if}
         <input
           type="text"
@@ -139,7 +166,9 @@
     {#if showChangePassword}
       <div class="mt-4">
         {#if passwordAlert}
-          <div class="alert">{passwordAlert}</div>
+          <div class="alert" class:success={passwordAlertSuccess}>
+            {passwordAlert}
+          </div>
         {/if}
         <input
           type="password"
@@ -164,13 +193,21 @@
 
 <style>
   .alert {
+    padding: 10px;
+    margin-bottom: 8px;
+    text-align: center;
+    border-left-width: 5px;
+  }
+  .alert.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    border-left-color: #28a745;
+  }
+  .alert.failure {
     background-color: #fdecea;
     color: #a94442;
     border: 1px solid #ebccd1;
-    padding: 10px;
-    border-left-width: 5px;
     border-left-color: #a94442;
-    margin-bottom: 8px;
-    text-align: center;
   }
 </style>
