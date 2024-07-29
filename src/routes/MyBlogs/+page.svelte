@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
   type Blog = {
     id: number;
     title: string;
@@ -120,4 +120,55 @@
   .text-blue-500 {
     color: #3b82f6;
   }
-</style>
+</style> -->
+
+
+
+
+<script lang="ts">
+  import { onMount } from 'svelte';
+  import custom_axios from '../../axios/AxiosSetup';
+
+  let blogs: string | any[] = [];
+
+  async function fetchBlogs() {
+    try {
+      const response = await custom_axios.get('/api/blogs/search/user');
+
+      if (response.status === 200) {
+        blogs = response.data;
+      } else {
+        console.error('Failed to fetch blogs:', response.data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  onMount(() => {
+    fetchBlogs();
+  });
+</script>
+
+<div class="bg-gray-100 py-8 px-4 mx-auto max-w-screen-xl">
+  <h1 class="text-3xl font-bold mb-6 antialiased text-center">My Blogs</h1>
+
+  {#if blogs.length > 0}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {#each blogs as blog}
+        <div class="p-4 bg-white rounded-lg shadow-md">
+          <h2 class="text-xl font-bold mb-2">{blog.title}</h2>
+          <p class="text-gray-700 mb-4">{blog.genre}</p>
+          <p class="text-gray-600">{blog.content}</p>
+          {#if blog.is_free}
+            <p class="text-green-500 mt-4">Free</p>
+          {:else}
+            <p class="text-blue-500 mt-4">Price: {blog.price} ETH</p>
+          {/if}
+        </div>
+      {/each}
+    </div>
+  {:else}
+    <p class="text-gray-700">No blogs found.</p>
+  {/if}
+</div>

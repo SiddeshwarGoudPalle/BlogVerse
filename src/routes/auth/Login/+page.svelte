@@ -5,7 +5,6 @@
   import custom_axios from '../../../axios/AxiosSetup';
   import { goto } from '$app/navigation';
   import { getAuthContext } from '../../../stores/authcontext'; // Import the context
-  import { onDestroy } from 'svelte';
 
   const { isAuthenticated } = getAuthContext();
 
@@ -19,6 +18,7 @@
         email,
         password
       });
+      localStorage.setItem("token",response.data.token);
       message = 'Login successful!';
       isAuthenticated.set(true); // Update the authentication state
       setTimeout(() => goto('/Dashboard'), 1000); 
@@ -27,15 +27,6 @@
       message = 'Login failed: ' + (error.response ? error.response.data.message : error.message);
     }
   }
-
-  // const sub = authStore.subscribe(async (info) => {
-  //   if (info.isLoggedIn) {
-  //     await goto('/');
-  //   }
-  // });
-  // onDestroy(() => {
-  //   sub();
-  // });
 </script>
 
 <div class="flex justify-center items-center h-screen bg-gray-100">

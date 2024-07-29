@@ -40,7 +40,7 @@
   <Navbar />
 {/if}
 <slot />
-<Footer />s
+<Footer />
 
 
 
