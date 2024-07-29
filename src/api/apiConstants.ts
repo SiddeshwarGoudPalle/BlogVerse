@@ -10,10 +10,9 @@ export const ApiConstants = {
       UPDATE_PASSWORD:"/auth/update-password",//update password
     },
     Blog:{
-      CREATE_BLOG:()=>{
-        return "/api/blogs";
-      },
-      GET_BLOG_BY_USER:"/api/blogs/search/user"
+      GET_USER_BY_ID:(userId:string)=>{
+        return "/api/blogs/search"+userId;
+      }
     }
 
   };

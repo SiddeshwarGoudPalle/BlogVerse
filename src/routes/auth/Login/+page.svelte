@@ -1,4 +1,3 @@
-
 <script>
   import { navigate } from 'svelte-routing';
   import { ApiConstants } from '../../../api/apiConstants'; // Adjust the path as needed
