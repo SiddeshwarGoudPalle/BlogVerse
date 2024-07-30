@@ -1,5 +1,11 @@
 <script>
+  import { logout } from '../stores/user';
+  import { goto } from '$app/navigation';
 
+  function handleLogout() {
+    logout();
+    goto('/');
+  }
 </script>
 
 
@@ -18,9 +24,7 @@
       <a href="../MyBlogs" class="text-slate-950 hover:text-blue-700">My Blogs</a>
       <a href="../Profile" class="text-slate-950 hover:text-blue-700">Profile</a>
       <a href="../Settings" class="text-slate-950 hover:text-blue-700">Settings</a>
-      <a href="../Settings" class="text-slate-950 hover:text-blue-700">Logout</a>
-   
-     
+      <button on:click={handleLogout} class="text-slate-950 hover:text-blue-700">Logout</button>
     </div>
   </div>
 </nav>

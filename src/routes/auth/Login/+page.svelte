@@ -3,13 +3,13 @@
   import { ApiConstants } from '../../../api/apiConstants'; // Adjust the path as needed
   import custom_axios from '../../../axios/AxiosSetup';
   import { goto } from '$app/navigation';
-  import { getAuthContext } from '../../../stores/authcontext'; // Import the context
-
-  const { isAuthenticated } = getAuthContext();
+  import { checkAuthentication } from '../../../stores/user';
+  
 
   let email = '';
   let password = '';
   let message = '';
+  
 
   async function login() {
     try {
@@ -17,15 +17,18 @@
         email,
         password
       });
+
       localStorage.setItem("token",response.data.token);
       message = 'Login successful!';
-      isAuthenticated.set(true); // Update the authentication state
-      setTimeout(() => goto('/Dashboard'), 1000); 
+      setTimeout(() => goto('/Dashboard'), 1000);
+      checkAuthentication(); 
+      console.log(checkAuthentication);
     } catch (error) {
       console.error('Error details:', error);
       message = 'Login failed: ' + (error.response ? error.response.data.message : error.message);
     }
   }
+
 </script>
 
 <div class="flex justify-center items-center h-screen bg-gray-100">

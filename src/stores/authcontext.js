@@ -1,13 +1,13 @@
-// src/stores/authContext.js
-import {  getContext, setContext } from 'svelte';
-import {  writable } from 'svelte/store';
+// // src/stores/authContext.js
+// import {  getContext, setContext } from 'svelte';
+// import {  writable } from 'svelte/store';
 
-const AuthContext = 'auth';
+// const AuthContext = 'auth';
 
-export const createAuthContext = () => {
-  const isAuthenticated = writable(false);
-  setContext(AuthContext, { isAuthenticated });
-};
+// export const createAuthContext = () => {
+//   let isAuthenticated = writable(false);
+//   setContext(AuthContext, { isAuthenticated });
+// };
 
-export const getAuthContext = () => getContext(AuthContext);
+// export const getAuthContext = () => getContext(AuthContext);
 

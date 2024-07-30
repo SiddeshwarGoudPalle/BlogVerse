@@ -1,59 +1,23 @@
-<!-- <script>
-  import { onMount } from 'svelte';
-  import Navbar from "$lib/Navbar.svelte";
-  import Footer from "$lib/Footer.svelte";
-  import "../app.css";
-  import NavbarPostlogin from "$lib/Navbar_postlogin.svelte";
-  import { writable } from 'svelte/store';
-
-</script>
-
-<Navbar/>
-<slot />
-<Footer /> -->
-
-
 <script>
   import { onMount } from 'svelte';
-  import { createAuthContext, getAuthContext } from '../stores/authcontext';
   import Navbar from '$lib/Navbar.svelte';
   import NavbarPostlogin from '$lib/Navbar_postlogin.svelte';
   import Footer from '$lib/Footer.svelte';
   import "../app.css";
+  import { get } from 'svelte/store';
+  import { isAuthenticated } from '../stores/user';
+  import { checkAuthentication } from '../stores/user';
 
-  createAuthContext();
-
-  const { isAuthenticated } = getAuthContext();
-  /**
-   * @type {any}
-   */
-  let authState;
-
-  $: isAuthenticated.subscribe((/** @type {any} */ value) => {
-    authState = value;
+  onMount(() => {
+    checkAuthentication();
   });
 </script>
 
-{#if authState}
+{#if $isAuthenticated}
   <NavbarPostlogin />
 {:else}
   <Navbar />
 {/if}
-<slot />
+
+<slot></slot>
 <Footer />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
