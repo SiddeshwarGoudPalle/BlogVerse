@@ -3,11 +3,8 @@
   import axios from "../../axios/AxiosSetup";
   import { ApiConstants } from "../../api/apiConstants";
   import { onMount } from "svelte";
-<<<<<<< HEAD
   import { logout } from '../../stores/user';
   import { goto } from '$app/navigation';
-=======
->>>>>>> 45c19417d73f42e54ede56e38625532ee049889c
 
   let email = "";
   let username = "";
@@ -53,7 +50,6 @@
       const response = await axios.patch(ApiConstants.Auth.UPDATE_EMAIL, {
         newEmail: email,
       });
-<<<<<<< HEAD
       emailAlert = "Email successfully updated! Please log in again to continue.";
       emailAlertSuccess = true;
       showChangeEmail = false;
@@ -61,11 +57,6 @@
       setTimeout(() => {
         handleLogout();
       }, 1000); // Delay to allow the user to see the alert message
-=======
-      emailAlert = response.data.message;
-      emailAlertSuccess = true;
-      showChangeEmail = false;
->>>>>>> 45c19417d73f42e54ede56e38625532ee049889c
     } catch (error) {
       emailAlert = error.response?.data?.message || "Failed to update email";
       emailAlertSuccess = false;
@@ -77,21 +68,12 @@
       const response = await axios.patch(ApiConstants.Auth.UPDATE_USERNAME, {
         newUsername: username,
       });
-<<<<<<< HEAD
       usernameAlert = "Username successfully updated!";
       usernameAlertSuccess = true;
       showChangeUsername = false;
       alert("username updated successfully");
     } catch (error) {
       usernameAlert = error.response?.data?.message || "Failed to update username";
-=======
-      usernameAlert = response.data.message;
-      usernameAlertSuccess = true;
-      showChangeUsername = false;
-    } catch (error) {
-      usernameAlert =
-        error.response?.data?.message || "Failed to update username";
->>>>>>> 45c19417d73f42e54ede56e38625532ee049889c
       usernameAlertSuccess = false;
     }
   }
@@ -102,21 +84,12 @@
         oldPassword,
         newPassword,
       });
-<<<<<<< HEAD
       passwordAlert = "Password successfully updated!";
       alert("password updated successfully");
       passwordAlertSuccess = true;
       showChangePassword = false;
     } catch (error) {
       passwordAlert = error.response?.data?.message || "Failed to update password";
-=======
-      passwordAlert = response.data.message;
-      passwordAlertSuccess = true;
-      showChangePassword = false;
-    } catch (error) {
-      passwordAlert =
-        error.response?.data?.message || "Failed to update password";
->>>>>>> 45c19417d73f42e54ede56e38625532ee049889c
       passwordAlertSuccess = false;
     }
   }
@@ -127,15 +100,12 @@
       window.location.href = "/login";
     }
   });
-<<<<<<< HEAD
 
   function handleLogout() {
     alert("email successfully updated . Please log in again with updated email.");
     logout();
     goto('/');
   }
-=======
->>>>>>> 45c19417d73f42e54ede56e38625532ee049889c
 </script>
 
 <div class="p-6 max-w-3xl mx-auto bg-gray-50 rounded-xl shadow-md space-y-4 w-7/10">
@@ -152,11 +122,7 @@
     {#if showChangeEmail}
       <div class="mt-4">
         {#if emailAlert}
-<<<<<<< HEAD
           <div class="alert {emailAlertSuccess ? 'success' : 'failure'}">
-=======
-          <div class="alert" class:success={emailAlertSuccess}>
->>>>>>> 45c19417d73f42e54ede56e38625532ee049889c
             {emailAlert}
           </div>
         {/if}
@@ -184,11 +150,7 @@
     {#if showChangeUsername}
       <div class="mt-4">
         {#if usernameAlert}
-<<<<<<< HEAD
           <div class="alert {usernameAlertSuccess ? 'success' : 'failure'}">
-=======
-          <div class="alert" class:success={usernameAlertSuccess}>
->>>>>>> 45c19417d73f42e54ede56e38625532ee049889c
             {usernameAlert}
           </div>
         {/if}
@@ -216,11 +178,7 @@
     {#if showChangePassword}
       <div class="mt-4">
         {#if passwordAlert}
-<<<<<<< HEAD
           <div class="alert {passwordAlertSuccess ? 'success' : 'failure'}">
-=======
-          <div class="alert" class:success={passwordAlertSuccess}>
->>>>>>> 45c19417d73f42e54ede56e38625532ee049889c
             {passwordAlert}
           </div>
         {/if}
