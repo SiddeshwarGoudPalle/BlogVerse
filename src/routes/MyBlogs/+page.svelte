@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount } from "svelte";
   import { jwtDecode } from "jwt-decode";
-  import custom_axios from '../../axios/AxiosSetup';
+  import custom_axios from "../../axios/AxiosSetup";
 
   interface UserInfo {
     userId: string;
@@ -27,28 +27,30 @@
   let errorMessage: string | null = null;
 
   onMount(async () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       try {
         const decodedToken: UserInfo = jwtDecode(token);
-        userEmail = decodedToken.email; 
+        userEmail = decodedToken.email;
 
         if (userEmail) {
-          const response = await custom_axios.get(`/api/blogs/search/user-email?userEmail=${encodeURIComponent(userEmail)}`);
+          const response = await custom_axios.get(
+            `/api/blogs/search/user-email?userEmail=${encodeURIComponent(userEmail)}`
+          );
 
           if (response.status === 200) {
             blogs = response.data;
           } else {
-            errorMessage = 'Failed to fetch blogs.';
-            console.error('Failed to fetch blogs:', response.data);
+            errorMessage = "Failed to fetch blogs.";
+            console.error("Failed to fetch blogs:", response.data);
           }
         }
       } catch (error) {
-        errorMessage = 'Error occurred while fetching user details or blogs.';
-        console.error('Error:', error);
+        errorMessage = "Error occurred while fetching user details or blogs.";
+        console.error("Error:", error);
       }
     } else {
-      errorMessage = 'No token found.';
+      errorMessage = "No token found.";
     }
   });
 </script>
@@ -67,15 +69,25 @@
 
 {#if blogs.length > 0}
   <div class="p-8 bg-gray-100 min-h-screen">
-    <h1 class="text-4xl font-extrabold text-gray-900 mb-6 text-center">My Blogs</h1>
+    <h1 class="text-4xl font-extrabold text-gray-900 mb-6 text-center">
+      My Blogs
+    </h1>
     <ul class="space-y-6">
       {#each blogs as blog}
-        <li class="bg-white shadow-lg rounded-lg p-6 border border-gray-200 hover:bg-gray-50 transition duration-300 ease-in-out">
+        <li
+          class="bg-white shadow-lg rounded-lg p-6 border border-gray-200 hover:bg-gray-50 transition duration-300 ease-in-out"
+        >
           <h2 class="text-2xl font-semibold text-gray-800">{blog.title}</h2>
           <p class="text-gray-700 mt-2">{blog.content}</p>
           <div class="mt-4">
-            <p class="text-gray-500">Genre: <span class="font-medium text-gray-700">{blog.genre}</span></p>
-            <p class="text-gray-500">Price: <span class="font-medium text-gray-700">{blog.isFree ? 'Free' : blog.price + ' ETH'}</span></p>
+            <p class="text-gray-500">
+              Genre: <span class="font-medium text-gray-700">{blog.genre}</span>
+            </p>
+            <p class="text-gray-500">
+              Price: <span class="font-medium text-gray-700"
+                >{blog.isFree ? "Free" : blog.price + " ETH"}</span
+              >
+            </p>
           </div>
         </li>
       {/each}

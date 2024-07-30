@@ -1,152 +1,119 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+  import custom_axios from "../../axios/AxiosSetup";
+
   type Blog = {
-    id: number;
+    id: string;
     title: string;
     content: string;
     price: number;
+    genre: string;
   };
 
-  let blogs: Blog[] = [
-    {
-      id: 1,
-      title: "Blog 1",
-      content:
-        "Tailwind lets you conditionally apply utility classes in different states using variant modifiers. For example, use hover:bg-cyan-600 to only apply the bg-cyan-600 utility on hover.",
-      price: 0,
-    },
-    {
-      id: 2,
-      title: "Blog 2",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus nisi ratione repudiandae consectetur tempore neque tempora cumque placeat nostrum unde, laborum non, commodi a illo doloremque, voluptatem dignissimos quisquam officia? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus nisi ratione repudiandae consectetur tempore neque tempora cumque placeat nostrum unde, laborum non, commodi a illo doloremque, voluptatem dignissimos quisquam officia?",
-      price: 10,
-    },
-    {
-      id: 3,
-      title: "Blog 3",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus nisi ratione repudiandae consectetur tempore neque tempora cumque placeat nostrum unde, laborum non, commodi a illo doloremque, voluptatem dignissimos quisquam officia?",
-      price: 10,
-    },
-    {
-      id: 4,
-      title: "Blog 4",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus nisi ratione repudiandae consectetur tempore neque tempora cumque placeat nostrum unde, laborum non, commodi a illo doloremque, voluptatem dignissimos quisquam officia?",
-      price: 10,
-    },
-    {
-      id: 5,
-      title: "Blog 5",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus nisi ratione repudiandae consectetur tempore neque tempora cumque placeat nostrum unde, laborum non, commodi a illo doloremque, voluptatem dignissimos quisquam officia?",
-      price: 10,
-    },
-  ];
+  let blogs: Blog[] = [];
+  let searchQuery: string = "";
+  let sortOption: string = "";
 
-  function formatContent(content: string): { short: string; full: string } {
-    const words = content.split(" ");
-    if (words.length > 50) {
-      return {
-        short: words.slice(0, 50).join(" ") + "...",
-        full: content,
-      };
+  const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
+
+  // Fetch all blogs on component mount
+  async function fetchBlogs() {
+    try {
+      const response = await custom_axios.get(`${VITE_BASE_URL}/blogs`);
+      blogs = response.data;
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
     }
-    return {
-      short: content,
-      full: content,
-    };
   }
 
+  // Search blogs by title
+  async function searchBlogs() {
+    try {
+      if (searchQuery.trim()) {
+        const response = await custom_axios.get(
+          `${VITE_BASE_URL}/blogs/by-title`,
+          {
+            params: { title: searchQuery },
+          }
+        );
+        blogs = response.data;
+      } else {
+        fetchBlogs();
+      }
+    } catch (error) {
+      console.error("Error searching blogs:", error);
+    }
+  }
+
+  // Sort blogs by price
+  async function sortBlogs() {
+    try {
+      if (sortOption) {
+        const response = await custom_axios.get(
+          `${VITE_BASE_URL}/blogs/sorted-by-price`,
+          {
+            params: { order: sortOption },
+          }
+        );
+        blogs = response.data;
+      } else {
+        fetchBlogs();
+      }
+    } catch (error) {
+      console.error("Error sorting blogs:", error);
+    }
+  }
+
+  // Fetch blogs initially
+  onMount(() => {
+    fetchBlogs();
+  });
 </script>
 
-<section class="p-6 rounded-lg shadow-md my-2 ">
-  <div class="p-6">
-    
-  <h1 class="text-3xl font-bold mb-6 text-center">Blog List</h1>
-  
-  <div class="mb-6 flex flex-col md:flex-row items-center justify-between">
-    <input 
-      type="text" 
-      placeholder="Search blogs..." 
-      class="p-2 border border-gray-300 rounded-lg mb-4 md:mb-0 md:flex-grow contrast-more:border-slate-400 contrast-more:placeholder-slate-500"
-    />
-  <div class="mb-0 flex flex-col md:flex-row items-center justify-between">
-    <select 
-      class="p-2 border border-gray-300 rounded-lg appearance-none w-full md:w-auto">
-      <option value="">Sort by</option>
-      <option value="">category</option>
-      <option value="popularity">Popularity</option>
-      <option value="price">Price</option>
-    </select>
-    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-      <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-      </svg>
+<div class="p-8 rounded-lg shadow-md my-2">
+  <div class="bg-gray-100 py-8 px-4 mx-auto max-w-screen-xl">
+    <h1 class="text-3xl font-bold mb-6 antialiased text-center">
+      Browse Blogs
+    </h1>
+    <div class="flex flex-col md:flex-row items-center mb-6 gap-4">
+      <input
+        type="text"
+        placeholder="Search by title..."
+        class="shadow appearance-none border rounded w-full md:w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        bind:value={searchQuery}
+        on:input={searchBlogs}
+      />
+      <select
+        class="shadow appearance-none border rounded w-full md:w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        bind:value={sortOption}
+        on:change={sortBlogs}
+      >
+        <option value="" disabled selected>Sort by</option>
+        <option value="asc">Price (Lowest to Highest)</option>
+        <option value="desc">Price (Highest to Lowest)</option>
+      </select>
+    </div>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    >
+      {#if blogs.length === 0}
+        <p class="text-center col-span-full">No blogs found.</p>
+      {/if}
+      {#each blogs as blog}
+        <a
+          href="#"
+          class="bg-white p-6 rounded-lg shadow-md border hover:shadow-lg transition-shadow duration-300"
+        >
+          <h2 class="text-2xl font-semibold mb-2">{blog.title}</h2>
+          <p class="text-gray-700 mb-4">{blog.content}</p>
+          <p class="text-indigo-600 font-bold">Price: {blog.price} ETH</p>
+          <p class="text-gray-500">Genre: {blog.genre}</p>
+        </a>
+      {/each}
     </div>
   </div>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ml-20">
-  {#each blogs as blog}
-    <div
-      class="blog bg-gray-100 text-white border p-4 rounded-lg shadow-md m-10 flex flex-col justify-between"
-    >
-      <a href={`/blog/${blog.id}`} class="no-underline text-black">
-        <h2 class="text-xl font-semibold">{blog.title}</h2>
-        <span></span>
-        <p>
-          {#if formatContent(blog.content).full.length > formatContent(blog.content).short.length}
-            {formatContent(blog.content).short}
-            <a href={`/BlogPage/${blog.id}`} class="text-blue-500"> Read more</a>
-          {:else}
-            {formatContent(blog.content).full}
-          {/if}
-        </p>
-        <div class="bottom-info">
-          {#if blog.price > 0}
-            <p class="text-red-500">Price: {blog.price} Satoshis</p>
-          {/if}
-          {#if blog.price == 0}
-            <p class="text-green-500">Free</p>
-          {/if}
-        </div>
-      </a>
-    </div>
-  {/each}
-</div>
-
-</section>
-
 
 <style>
-
-  section {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .blog {
-    width: 300px;
-    position: relative;
-    overflow: hidden;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-
-  .blog:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
-
-  a.no-underline {
-    text-decoration: none;
-  }
-
-  .bottom-info {
-    margin-top: auto;
-  }
-
-  .text-blue-500 {
-    color: #3b82f6;
-  }
+  /* Add any custom styles if needed */
 </style>

@@ -1,48 +1,48 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import custom_axios from '../../axios/AxiosSetup';
+  import { goto } from "$app/navigation";
+  import custom_axios from "../../axios/AxiosSetup";
 
-  let title = '';
-  let genre = '';
-  let content = '';
+  let title = "";
+  let genre = "";
+  let content = "";
   let price = 0;
-  let selectedOption = '';
-  let successMessage = '';
-  let errorMessage = '';
+  let selectedOption = "";
+  let successMessage = "";
+  let errorMessage = "";
 
   async function handleSubmit(event: Event) {
     event.preventDefault();
-    console.log('Form submitted');
-    
+    console.log("Form submitted");
+
     const blogData = {
       title,
       genre,
       content,
-      price: selectedOption === 'paid' ? price : 0,
-      isFree: selectedOption === 'free' // Adjusted to match DTO
+      price: selectedOption === "paid" ? price : 0,
+      isFree: selectedOption === "free", // Adjusted to match DTO
     };
 
-    console.log('Blog Data:', blogData);
+    console.log("Blog Data:", blogData);
 
     try {
-      const response = await custom_axios.post('/api/blogs', blogData);
-      console.log('Response:', response);
+      const response = await custom_axios.post("/api/blogs", blogData);
+      console.log("Response:", response);
 
       if (response.status === 201) {
-        successMessage = 'Blog created successfully!';
+        successMessage = "Blog created successfully!";
         // Optionally, you can clear the form fields after successful submission
-        title = '';
-        genre = '';
-        content = '';
+        title = "";
+        genre = "";
+        content = "";
         price = 0;
-        selectedOption = '';
+        selectedOption = "";
       } else {
-        errorMessage = 'Failed to create blog.';
-        console.error('Failed to create blog:', response.data);
+        errorMessage = "Failed to create blog.";
+        console.error("Failed to create blog:", response.data);
       }
     } catch (error) {
-      errorMessage = 'Error occurred while creating the blog.';
-      console.error('Error:', error);
+      errorMessage = "Error occurred while creating the blog.";
+      console.error("Error:", error);
     }
   }
 </script>
@@ -62,16 +62,37 @@
 
   <form on:submit={handleSubmit} class="p-8 rounded-lg shadow-md my-2">
     <div class="bg-gray-100 py-8 px-4 mx-auto max-w-screen-xl">
-      <h1 class="text-3xl font-bold mb-6 antialiased text-center">Create a New Blog</h1>
+      <h1 class="text-3xl font-bold mb-6 antialiased text-center">
+        Create a New Blog
+      </h1>
 
       <div class="mb-4">
-        <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Title</label>
-        <input type="text" id="title" name="title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" bind:value={title} placeholder="Enter blog title" required>
+        <label for="title" class="block text-gray-700 text-sm font-bold mb-2"
+          >Title</label
+        >
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          bind:value={title}
+          placeholder="Enter blog title"
+          required
+        />
       </div>
 
       <div class="mb-4">
-        <label for="content" class="block text-gray-700 text-sm font-bold mb-2">Content</label>
-        <textarea id="content" name="content" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-64" bind:value={content} placeholder="Enter blog content" required></textarea>
+        <label for="content" class="block text-gray-700 text-sm font-bold mb-2"
+          >Content</label
+        >
+        <textarea
+          id="content"
+          name="content"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-64"
+          bind:value={content}
+          placeholder="Enter blog content"
+          required
+        ></textarea>
       </div>
 
       <div class="p-4">
@@ -99,8 +120,8 @@
             Paid
           </label>
         </div>
-      
-        {#if selectedOption === 'paid'}
+
+        {#if selectedOption === "paid"}
           <div class="mt-4">
             <input
               type="number"
@@ -116,12 +137,26 @@
       </div>
 
       <div class="mb-4">
-        <label for="genre" class="block text-gray-700 text-sm font-bold mb-2">Genre</label>
-        <input type="text" id="genre" name="genre" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" bind:value={genre} placeholder="Enter blog genre" required>
+        <label for="genre" class="block text-gray-700 text-sm font-bold mb-2"
+          >Genre</label
+        >
+        <input
+          type="text"
+          id="genre"
+          name="genre"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          bind:value={genre}
+          placeholder="Enter blog genre"
+          required
+        />
       </div>
 
       <div class="mb-4 items-center">
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-center">Publish Blog</button>
+        <button
+          type="submit"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-center"
+          >Publish Blog</button
+        >
       </div>
     </div>
   </form>
