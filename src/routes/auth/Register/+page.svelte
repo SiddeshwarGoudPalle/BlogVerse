@@ -7,7 +7,6 @@
   let username = '';
   let email = '';
   let password = '';
-  let walletAddress = '';
   let message = '';
 
   async function register() {
@@ -15,11 +14,10 @@
       const response = await custom_axios.post(ApiConstants.Auth.REGISTER, {
         username,
         email,
-        password,
-        walletAddress
+        password
       });
       message = 'Registration successful!';
-      setTimeout(() => goto('/auth/Login'), 1000); // Redirect to login after 2 seconds
+      setTimeout(() => goto('/auth/Login'), 1000); // Redirect to login after 1 second
     } catch (error) {
       console.error('Error details:', error); // Log error details
       message = 'Registration failed: ' + (error.response ? error.response.data.message : error.message);
@@ -27,11 +25,11 @@
   }
 </script>
 
-<div class="flex justify-center items-center h-screen bg-gray-100">
-  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-    <h2 class="text-2xl font-bold mb-6">Register</h2>
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+  <div class="bg-yellow-300 p-8 rounded-lg shadow-lg w-full max-w-md transition-transform transform hover:scale-105 hover:shadow-xl">
+    <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">Register</h2>
     {#if message}
-      <p class={message === 'Registration successful!' ? 'text-green-500 mb-4' : 'text-red-500 mb-4'}>{message}</p>
+      <p class={message === 'Registration successful!' ? 'text-green-500 mb-4 text-center' : 'text-red-500 mb-4 text-center'}>{message}</p>
     {/if}
     <form on:submit|preventDefault={register} class="space-y-4">
       <div>
@@ -40,7 +38,7 @@
           type="text"
           id="username"
           bind:value={username}
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-transform transform hover:scale-105"
           required
         />
       </div>
@@ -51,7 +49,7 @@
           type="email"
           id="email"
           bind:value={email}
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-transform transform hover:scale-105"
           required
         />
       </div>
@@ -62,25 +60,15 @@
           type="password"
           id="password"
           bind:value={password}
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-transform transform hover:scale-105"
           required
         />
       </div>
 
-      <div>
-        <label for="walletAddress" class="block text-sm font-medium text-gray-700">Wallet Address</label>
-        <input
-          type="text"
-          id="walletAddress"
-          bind:value={walletAddress}
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-        />
-      </div>
-
-      <div>
+      <div class="flex justify-center">
         <button
           type="submit"
-          class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          class=" py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-transform transform hover:scale-105"
         >
           Register
         </button>
@@ -88,3 +76,10 @@
     </form>
   </div>
 </div>
+
+<style>
+  .min-h-screen {
+    min-height: 100vh;
+  }
+</style>
+
