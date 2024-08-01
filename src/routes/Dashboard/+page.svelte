@@ -10,65 +10,8 @@
     category: string;
   };
 
-<<<<<<< HEAD
-  const recentBlogs: Blog[] = [
-    {
-      id: 1,
-      title: "Recent Blog 1",
-      summary: "Summary 1",
-      price: 10,
-      popularity: 5,
-      category: "Tech",
-    },
-    {
-      id: 2,
-      title: "Recent Blog 2",
-      summary: "Summary 2",
-      price: 15,
-      popularity: 7,
-      category: "Health",
-    },
-    {
-      id: 3,
-      title: "Recent Blog 3",
-      summary: "Summary 3",
-      price: 20,
-      popularity: 8,
-      category: "Finance",
-    },
-  ];
-
-  const popularBlogs: Blog[] = [
-    {
-      id: 4,
-      title: "Popular Blog 1",
-      summary: "Summary 4",
-      price: 20,
-      popularity: 10,
-      category: "Finance",
-    },
-    {
-      id: 5,
-      title: "Popular Blog 2",
-      summary: "Summary 5",
-      price: 25,
-      popularity: 12,
-      category: "Travel",
-    },
-    {
-      id: 6,
-      title: "Popular Blog 3",
-      summary: "Summary 6",
-      price: 30,
-      popularity: 15,
-      category: "Tech",
-    },
-  ];
-
-=======
   let recentBlogs: Blog[] = [];
   let filteredBlogs: Blog[] = [];
->>>>>>> 64d0335445d48ddbcede105db68d1935de4d48f2
   const categories = ["Tech", "Health", "Finance", "Travel"];
   const notifications = ["Notification 1", "Notification 2"];
   let selectedCategory: string | null = null;
@@ -110,10 +53,6 @@
     <h2 class="text-2xl font-bold mb-6 text-gray-800">Categories</h2>
     <ul>
       {#each categories as category}
-<<<<<<< HEAD
-        <li class="mb-4 px-3 py-2 bg-gray-700 rounded hover:bg-gray-600 transition-colors">
-          {category}
-=======
         <li class="mb-4">
           <button 
             class="w-full px-3 py-2 bg-gray-700 rounded hover:bg-gray-600 text-left"
@@ -122,7 +61,6 @@
           >
             {category}
           </button>
->>>>>>> 64d0335445d48ddbcede105db68d1935de4d48f2
         </li>
       {/each}
     </ul>
@@ -130,15 +68,10 @@
     <h2 class="text-2xl font-bold mt-10 mb-6 text-gray-800">Notifications</h2>
     <ul>
       {#each notifications as notification}
-<<<<<<< HEAD
-        <li class="mb-4 px-3 py-2 bg-gray-700 rounded hover:bg-gray-600 transition-colors">
-          {notification}
-=======
         <li class="mb-4">
           <div class="px-3 py-2 bg-gray-700 rounded">
             {notification}
           </div>
->>>>>>> 64d0335445d48ddbcede105db68d1935de4d48f2
         </li>
       {/each}
     </ul>
@@ -152,35 +85,15 @@
         <h2 class="text-2xl font-bold mb-4 text-gray-800">Recent Blogs</h2>
         <ul>
           {#each recentBlogs as blog}
-<<<<<<< HEAD
-            <li class="mb-4 bg-white p-4 rounded shadow-md transition-transform transform hover:scale-105 hover:shadow-lg">
-              <h3 class="text-lg font-semibold text-gray-800">{blog.title}</h3>
-              <p class="text-gray-800">{blog.summary}</p>
-=======
             <li class="mb-4 bg-white p-4 rounded shadow">
               <h3 class="text-lg font-semibold">{blog.title}</h3>
               <p>{blog.content}</p>
->>>>>>> 64d0335445d48ddbcede105db68d1935de4d48f2
               <p class="text-sm text-gray-600">Price: ${blog.price}</p>
             </li>
           {/each}
         </ul>
       </section>
 
-<<<<<<< HEAD
-      <!-- Popular Blogs -->
-      <section class="bg-yellow-300 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
-        <h2 class="text-2xl font-bold mb-4 text-gray-800">Popular Blogs</h2>
-        <ul>
-          {#each popularBlogs as blog}
-            <li class="mb-4 bg-white p-4 rounded shadow-md transition-transform transform hover:scale-105 hover:shadow-lg">
-              <h3 class="text-lg font-semibold text-gray-800">{blog.title}</h3>
-              <p class="text-gray-800">{blog.summary}</p>
-              <p class="text-sm text-gray-600">Price: ${blog.price}</p>
-            </li>
-          {/each}
-        </ul>
-=======
       <!-- Filtered Blogs by Genre -->
       {#if selectedCategory}
       <section class="bg-gray-100 p-6 rounded-lg shadow-md">
@@ -198,7 +111,6 @@
             {/each}
           </ul>
         {/if}
->>>>>>> 64d0335445d48ddbcede105db68d1935de4d48f2
       </section>
       {/if}
     </div>

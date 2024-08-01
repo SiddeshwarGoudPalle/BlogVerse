@@ -221,17 +221,10 @@
     border-left-color: #28a745;
   }
   .alert.failure {
-<<<<<<< HEAD
     background-color: #fdecea;
     color: #a94442;
     border: 1px solid #ebccd1;
     border-left-color: #a94442;
-=======
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    border-left-color: #dc3545;
->>>>>>> 64d0335445d48ddbcede105db68d1935de4d48f2
   }
 </style>
 
