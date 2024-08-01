@@ -71,7 +71,7 @@
       usernameAlert = "Username successfully updated!";
       usernameAlertSuccess = true;
       showChangeUsername = false;
-      alert("username updated successfully");
+      alert("Username updated successfully");
     } catch (error) {
       usernameAlert = error.response?.data?.message || "Failed to update username";
       usernameAlertSuccess = false;
@@ -85,7 +85,7 @@
         newPassword,
       });
       passwordAlert = "Password successfully updated!";
-      alert("password updated successfully");
+      alert("Password updated successfully");
       passwordAlertSuccess = true;
       showChangePassword = false;
     } catch (error) {
@@ -102,105 +102,110 @@
   });
 
   function handleLogout() {
-    alert("email successfully updated . Please log in again with updated email.");
+    alert("Email successfully updated. Please log in again with the updated email.");
     logout();
     goto('/');
   }
 </script>
 
-<div class="p-6 max-w-3xl mx-auto bg-gray-50 rounded-xl shadow-md space-y-4 w-7/10">
-  <div class="text-black text-2xl font-bold">Account Settings</div>
-  
-  <!-- Email Section -->
-  <div>
-    <button
-      class="w-full text-left px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg"
-      on:click={toggleChangeEmail}
-    >
-      Change Email
-    </button>
-    {#if showChangeEmail}
-      <div class="mt-4">
-        {#if emailAlert}
-          <div class="alert {emailAlertSuccess ? 'success' : 'failure'}">
-            {emailAlert}
+<section id="settings" class="bg-gray-100 py-8">
+  <div class="container mx-auto px-4 max-w-3xl">
+    <!-- Account Settings Section -->
+    <div class="bg-yellow-300 p-6 rounded-lg shadow-lg mb-8 transition-transform transform hover:scale-105 hover:shadow-xl">
+      <h2 class="text-3xl font-bold mb-4 text-gray-800">Account Settings</h2>
+
+      <!-- Email Section -->
+      <div class="mb-6">
+        <button
+          class="w-full text-left px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg"
+          on:click={toggleChangeEmail}
+        >
+          Change Email
+        </button>
+        {#if showChangeEmail}
+          <div class="mt-4">
+            {#if emailAlert}
+              <div class="alert {emailAlertSuccess ? 'success' : 'failure'}">
+                {emailAlert}
+              </div>
+            {/if}
+            <input
+              type="email"
+              placeholder="Enter new email"
+              bind:value={email}
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg"
+            />
+            <button
+              class="mt-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+              on:click={validateEmail}>Change Email</button>
           </div>
         {/if}
-        <input
-          type="email"
-          placeholder="Enter new email"
-          bind:value={email}
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg"
-        />
-        <button
-          class="mt-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
-          on:click={validateEmail}>Change Email</button>
       </div>
-    {/if}
-  </div>
-  
-  <!-- Username Section -->
-  <div>
-    <button
-      class="w-full text-left px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg"
-      on:click={toggleChangeUsername}
-    >
-      Change Username
-    </button>
-    {#if showChangeUsername}
-      <div class="mt-4">
-        {#if usernameAlert}
-          <div class="alert {usernameAlertSuccess ? 'success' : 'failure'}">
-            {usernameAlert}
+
+      <!-- Username Section -->
+      <div class="mb-6">
+        <button
+          class="w-full text-left px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg"
+          on:click={toggleChangeUsername}
+        >
+          Change Username
+        </button>
+        {#if showChangeUsername}
+          <div class="mt-4">
+            {#if usernameAlert}
+              <div class="alert {usernameAlertSuccess ? 'success' : 'failure'}">
+                {usernameAlert}
+              </div>
+            {/if}
+            <input
+              type="text"
+              placeholder="Enter new username"
+              bind:value={username}
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg"
+            />
+            <button
+              class="mt-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+              on:click={validateUsername}>Change Username</button>
           </div>
         {/if}
-        <input
-          type="text"
-          placeholder="Enter new username"
-          bind:value={username}
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg"
-        />
-        <button
-          class="mt-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
-          on:click={validateUsername}>Change Username</button>
       </div>
-    {/if}
-  </div>
-  
-  <!-- Password Section -->
-  <div>
-    <button
-      class="w-full text-left px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg"
-      on:click={toggleChangePassword}
-    >
-      Change Password
-    </button>
-    {#if showChangePassword}
-      <div class="mt-4">
-        {#if passwordAlert}
-          <div class="alert {passwordAlertSuccess ? 'success' : 'failure'}">
-            {passwordAlert}
+
+      <!-- Password Section -->
+      <div>
+        <button
+          class="w-full text-left px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg"
+          on:click={toggleChangePassword}
+        >
+          Change Password
+        </button>
+        {#if showChangePassword}
+          <div class="mt-4">
+            {#if passwordAlert}
+              <div class="alert {passwordAlertSuccess ? 'success' : 'failure'}">
+                {passwordAlert}
+              </div>
+            {/if}
+            <input
+              type="password"
+              placeholder="Enter old password"
+              bind:value={oldPassword}
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg"
+            />
+            <input
+              type="password"
+              placeholder="Enter new password"
+              bind:value={newPassword}
+              class="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg"
+            />
+            <button
+              class="mt-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+              on:click={validatePassword}>Change Password</button>
           </div>
         {/if}
-        <input
-          type="password"
-          placeholder="Enter old password"
-          bind:value={oldPassword}
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg"
-        />
-        <input
-          type="password"
-          placeholder="Enter new password"
-          bind:value={newPassword}
-          class="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg"
-        />
-        <button
-          class="mt-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
-          on:click={validatePassword}>Change Password</button>
       </div>
-    {/if}
+    </div>
   </div>
-</div>
+</section>
 
 <style>
   .alert {
@@ -216,9 +221,17 @@
     border-left-color: #28a745;
   }
   .alert.failure {
+<<<<<<< HEAD
+    background-color: #fdecea;
+    color: #a94442;
+    border: 1px solid #ebccd1;
+    border-left-color: #a94442;
+=======
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
     border-left-color: #dc3545;
+>>>>>>> 64d0335445d48ddbcede105db68d1935de4d48f2
   }
 </style>
+

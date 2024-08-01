@@ -66,20 +66,20 @@
     alertDiv.innerText = message;
     alertDiv.className = "p-4 mb-4 rounded fixed bottom-0 right-0 m-4 z-50";
     document.body.appendChild(alertDiv);
-    setTimeout(() => alertDiv.remove(), 300);
+    setTimeout(() => alertDiv.remove(), 3000); // Show alert for 3 seconds
   }
 
   function showSignupPopup() {
     const popup = document.createElement("div");
     popup.className =
-      "fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75";
+      "fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50";
     popup.innerHTML = `
-      <div class="bg-white p-6 rounded shadow-lg max-w-sm w-full">
+      <div class="bg-gray-100 p-6 rounded shadow-lg max-w-sm w-full">
         <h2 class="text-lg font-bold mb-4">Sign Up for Wallet</h2>
         <label for="signup-email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input type="text" id="signup-email" class="block w-full px-3 py-2 border rounded mb-4">
+        <input type="email" id="signup-email" class="block w-full px-3 py-2 border rounded mb-4" required>
         <label for="signup-password" class="block text-sm font-medium text-gray-700">Password</label>
-        <input type="password" id="signup-password" class="block w-full px-3 py-2 border rounded mb-4">
+        <input type="password" id="signup-password" class="block w-full px-3 py-2 border rounded mb-4" required>
         <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="submitSignup()">Submit</button>
         <button class="bg-red-500 text-white px-4 py-2 rounded mt-2" onclick="closePopup()">Cancel</button>
       </div>
@@ -93,8 +93,8 @@
   }
 
   async function submitSignup() {
-    const email = document.getElementById("signup-email").value;
-    const password = document.getElementById("signup-password").value;
+    const email = (document.getElementById("signup-email") as HTMLInputElement).value;
+    const password = (document.getElementById("signup-password") as HTMLInputElement).value;
     if (email && password) {
       await signupForWallet(email, password);
       closePopup();
@@ -107,8 +107,8 @@
     fetchUserDetails();
   });
 </script>
-
-<div class="p-6 max-w-3xl mx-auto bg-gray-100 rounded-xl shadow-md space-y-6">
+<section id="profile" class="bg-gray-100 py-8">
+<div class="p-6 max-w-3xl mx-auto bg-yellow-300 rounded-xl shadow-md space-y-6 mt-12 ">
   <div class="flex items-center space-x-4">
     <svg
       class="user-icon w-12 h-12 text-gray-900"
@@ -129,24 +129,24 @@
     <div class="text-gray-900 text-xl font-semibold">
       Enter Neucron Wallet Credentials to connect the Wallet
     </div>
-    <form method="POST" action="?/login">
+    <form method="POST" action="?/login" class="mt-4">
       <div class="flex flex-wrap -mx-3 mb-2">
-        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0 transition-transform transform hover:scale-105">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="email"
+            for="email font "
           >
             Email
           </label>
           <input
-            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="email"
-            type="text"
+            type="email"
             placeholder="Enter email"
             name="email"
           />
         </div>
-        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0 transition-transform transform hover:scale-105">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             for="password"
@@ -154,17 +154,17 @@
             Password
           </label>
           <input
-            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="password"
-            type="text"
+            type="password"
             placeholder="Enter password"
             name="password"
           />
         </div>
         <button
           on:click={connectWallet}
-          type="submit"
-          class="bg-yellow-500 hover:bg-blue-700 text-white font-bold mt-5 ml-2 px-2 rounded"
+          type="button"
+          class="bg-white text-black font-bold mt-5 ml-2 px-4 py-2 rounded border border-gray-300 hover:bg-gray-100 transition-transform transform hover:scale-105"
         >
           Connect Wallet
         </button>
@@ -172,9 +172,10 @@
     </form>
     <div class="mt-2 text-sm">
       Didn't SignUp for the Wallet?
-      <a href="#" on:click={showSignupPopup}>SignUp</a>
+      <a href="#" on:click={showSignupPopup} class="text-blue-500 underline">SignUp</a>
     </div>
   </div>
+
 
   {#if isWalletConnected}
     <div class="mt-4">
@@ -221,6 +222,7 @@
     </ul>
   </div>
 </div>
+</section>
 
 <style>
   .user-icon,
@@ -230,5 +232,13 @@
   }
   .history-icon {
     height: 1.5em; /* Adjust height to match text */
+  }
+  /* Additional Styles */
+  .fixed.inset-0 {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>

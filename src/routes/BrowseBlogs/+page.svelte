@@ -103,44 +103,29 @@
         bind:value={sortOption}
         on:change={sortBlogs}
       >
-        <option value="" disabled selected>Sort by Price</option>
+        <option value="" disabled selected>Sort by</option>
         <option value="asc">Price (Lowest to Highest)</option>
         <option value="desc">Price (Highest to Lowest)</option>
       </select>
-      <select
-        class="shadow appearance-none border rounded w-full md:w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        bind:value={genreOption}
-        on:change={filterBlogsByGenre}
-      >
-        <option value="" disabled selected>Filter by Genre</option>
-        <!-- Add other genres here -->
-        <option value="Tech">Tech</option>
-        <option value="Health">Health</option>
-        <option value="Finance">Finance</option>
-        <option value="Travel">Travel</option>
-      </select>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    >
       {#if blogs.length === 0}
         <p class="text-center col-span-full">No blogs found.</p>
       {/if}
       {#each blogs as blog}
         <a
-          href="javascript:void(0)"
+          href="#"
           class="bg-white p-6 rounded-lg shadow-md border hover:shadow-lg transition-shadow duration-300"
-          on:click={() => goToBlogPage(blog.id)}
         >
           <h2 class="text-2xl font-semibold mb-2">{blog.title}</h2>
-          <p class="text-gray-700 mb-4">{blog.content.substring(0, 100)}{blog.content.length > 100 ? '...' : ''}</p>
+          <p class="text-gray-700 mb-4">{blog.content}</p>
           <p class="text-indigo-600 font-bold">Price: {blog.price} ETH</p>
           <p class="text-gray-500">Genre: {blog.genre}</p>
-          <p class="text-indigo-600 underline">Read More</p>
         </a>
       {/each}
     </div>
   </div>
 </div>
 
-<style>
-  /* Add any custom styles if needed */
-</style>
