@@ -70,50 +70,45 @@
   });
 </script>
 
-<div class="p-8 rounded-lg shadow-md my-2">
-  <div class="bg-gray-100 py-8 px-4 mx-auto max-w-screen-xl">
-    <h1 class="text-3xl font-bold mb-6 antialiased text-center">
-      Browse Blogs
-    </h1>
-    <div class="flex flex-col md:flex-row items-center mb-6 gap-4">
-      <input
-        type="text"
-        placeholder="Search by title..."
-        class="shadow appearance-none border rounded w-full md:w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        bind:value={searchQuery}
-        on:input={searchBlogs}
-      />
-      <select
-        class="shadow appearance-none border rounded w-full md:w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        bind:value={sortOption}
-        on:change={sortBlogs}
-      >
-        <option value="" disabled selected>Sort by</option>
-        <option value="asc">Price (Lowest to Highest)</option>
-        <option value="desc">Price (Highest to Lowest)</option>
-      </select>
-    </div>
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-    >
-      {#if blogs.length === 0}
-        <p class="text-center col-span-full">No blogs found.</p>
-      {/if}
-      {#each blogs as blog}
-        <a
-          href="#"
-          class="bg-white p-6 rounded-lg shadow-md border hover:shadow-lg transition-shadow duration-300"
+<section id="browseblogs" class="bg-gray-100 py-8">
+  <div class="p-8 rounded-lg shadow-md my-2 bg-gray-100">
+    <div class="bg-yellow-300 py-8 px-4 mx-auto max-w-screen-xl">
+      <h1 class="text-3xl font-bold mb-6 text-center text-black">Browse Blogs</h1>
+      <div class="flex flex-col md:flex-row items-center mb-6 gap-4">
+        <input
+          type="text"
+          placeholder="Search by title..."
+          class="shadow appearance-none border rounded w-full md:w-1/2 py-2 px-3 text-black border-yellow-300 focus:outline-none focus:ring-2 focus:ring-black"
+          bind:value={searchQuery}
+          on:input={searchBlogs}
+        />
+        <select
+          class="shadow appearance-none border rounded w-full md:w-1/4 py-2 px-3 text-black border-yellow-300 focus:outline-none focus:ring-2 focus:ring-black"
+          bind:value={sortOption}
+          on:change={sortBlogs}
         >
-          <h2 class="text-2xl font-semibold mb-2">{blog.title}</h2>
-          <p class="text-gray-700 mb-4">{blog.content}</p>
-          <p class="text-indigo-600 font-bold">Price: {blog.price} ETH</p>
-          <p class="text-gray-500">Genre: {blog.genre}</p>
-        </a>
-      {/each}
+          <option value="" disabled selected>Sort by</option>
+          <option value="asc">Price (Lowest to Highest)</option>
+          <option value="desc">Price (Highest to Lowest)</option>
+        </select>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {#if blogs.length === 0}
+          <p class="text-center col-span-full text-gray-500">No blogs found.</p>
+        {/if}
+        {#each blogs as blog}
+          <a
+            href="#"
+            class="bg-black p-6 rounded-lg shadow-lg mb-8 transition-transform transform hover:scale-105 hover:shadow-xl border border-yellow-300"
+          >
+            <h2 class="text-2xl font-semibold mb-2 text-yellow-300">{blog.title}</h2>
+            <p class="text-yellow-100 mb-4">{blog.content}</p>
+            <p class="text-yellow-300 font-bold">Price: {blog.price} ETH</p>
+            <p class="text-gray-400">Genre: {blog.genre}</p>
+          </a>
+        {/each}
+      </div>
     </div>
   </div>
-</div>
+</section>
 
-<style>
-  /* Add any custom styles if needed */
-</style>

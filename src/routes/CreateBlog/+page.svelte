@@ -19,7 +19,7 @@
       genre,
       content,
       price: selectedOption === "paid" ? price : 0,
-      isFree: selectedOption === "free", // Adjusted to match DTO
+      isFree: selectedOption === "free",
     };
 
     console.log("Blog Data:", blogData);
@@ -30,7 +30,6 @@
 
       if (response.status === 201) {
         successMessage = "Blog created successfully!";
-        // Optionally, you can clear the form fields after successful submission
         title = "";
         genre = "";
         content = "";
@@ -47,7 +46,8 @@
   }
 </script>
 
-<div class="p-8 rounded-lg shadow-md my-2">
+
+<div class="p-0 rounded-lg shadow-md my-2  hover:shadow-xl">
   {#if successMessage}
     <div class="bg-green-500 text-white p-4 rounded mb-4">
       {successMessage}
@@ -60,16 +60,12 @@
     </div>
   {/if}
 
-  <form on:submit={handleSubmit} class="p-8 rounded-lg shadow-md my-2">
-    <div class="bg-gray-100 py-8 px-4 mx-auto max-w-screen-xl">
-      <h1 class="text-3xl font-bold mb-6 antialiased text-center">
-        Create a New Blog
-      </h1>
+  <form on:submit={handleSubmit} class="p-8 rounded-lg shadow-lg hover:shadow-xl">
+    <div class="bg-yellow-300 py-4 px-4 mx-auto max-w-screen-xl rounded-lg shadow-lg">
+      <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Create a New Blog</h1>
 
       <div class="mb-4">
-        <label for="title" class="block text-gray-700 text-sm font-bold mb-2"
-          >Title</label
-        >
+        <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Title</label>
         <input
           type="text"
           id="title"
@@ -82,9 +78,7 @@
       </div>
 
       <div class="mb-4">
-        <label for="content" class="block text-gray-700 text-sm font-bold mb-2"
-          >Content</label
-        >
+        <label for="content" class="block text-gray-700 text-sm font-bold mb-2">Content</label>
         <textarea
           id="content"
           name="content"
@@ -95,7 +89,7 @@
         ></textarea>
       </div>
 
-      <div class="p-4">
+      <div class="p-4 bg-gray-100 rounded-lg shadow-lg">
         <div class="flex items-center mb-4">
           <label class="mr-4">
             <input
@@ -137,9 +131,7 @@
       </div>
 
       <div class="mb-4">
-        <label for="genre" class="block text-gray-700 text-sm font-bold mb-2"
-          >Genre</label
-        >
+        <label for="genre" class="block text-gray-700 text-sm font-bold mb-2">Genre</label>
         <input
           type="text"
           id="genre"
@@ -154,10 +146,13 @@
       <div class="mb-4 items-center">
         <button
           type="submit"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-center"
-          >Publish Blog</button
+          class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105"
         >
+          Publish Blog
+        </button>
       </div>
     </div>
   </form>
 </div>
+
+
