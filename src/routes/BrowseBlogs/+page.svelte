@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import custom_axios from "../../axios/AxiosSetup";
+  import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
+  import custom_axios from '../../axios/AxiosSetup';
 
   type Blog = {
     id: string;
@@ -13,16 +14,15 @@
   let blogs: Blog[] = [];
   let searchQuery: string = "";
   let sortOption: string = "";
-
-  const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
+  let genreOption: string = "";
 
   // Fetch all blogs on component mount
   async function fetchBlogs() {
     try {
-      const response = await custom_axios.get(`${VITE_BASE_URL}/blogs`);
+      const response = await custom_axios.get('http://localhost:3000/api/blogs');
       blogs = response.data;
     } catch (error) {
-      console.error("Error fetching blogs:", error);
+      console.error('Error fetching blogs:', error);
     }
   }
 
@@ -30,18 +30,15 @@
   async function searchBlogs() {
     try {
       if (searchQuery.trim()) {
-        const response = await custom_axios.get(
-          `${VITE_BASE_URL}/blogs/by-title`,
-          {
-            params: { title: searchQuery },
-          }
-        );
+        const response = await custom_axios.get(`http://localhost:3000/api/blogs/search/title`, {
+          params: { title: searchQuery },
+        });
         blogs = response.data;
       } else {
         fetchBlogs();
       }
     } catch (error) {
-      console.error("Error searching blogs:", error);
+      console.error('Error searching blogs:', error);
     }
   }
 
@@ -49,19 +46,37 @@
   async function sortBlogs() {
     try {
       if (sortOption) {
-        const response = await custom_axios.get(
-          `${VITE_BASE_URL}/blogs/sorted-by-price`,
-          {
-            params: { order: sortOption },
-          }
-        );
+        const response = await custom_axios.get(`http://localhost:3000/api/blogs/sorted-by-price`, {
+          params: { order: sortOption },
+        });
         blogs = response.data;
       } else {
         fetchBlogs();
       }
     } catch (error) {
-      console.error("Error sorting blogs:", error);
+      console.error('Error sorting blogs:', error);
     }
+  }
+
+  // Filter blogs by genre
+  async function filterBlogsByGenre() {
+    try {
+      if (genreOption) {
+        const response = await custom_axios.get(`http://localhost:3000/api/blogs/search/genre`, {
+          params: { genre: genreOption },
+        });
+        blogs = response.data;
+      } else {
+        fetchBlogs();
+      }
+    } catch (error) {
+      console.error('Error filtering blogs by genre:', error);
+    }
+  }
+
+  // Navigate to the blog detail page
+  function goToBlogPage(blogId: string) {
+    goto(`/blogpage/${blogId}`);
   }
 
   // Fetch blogs initially
@@ -88,26 +103,38 @@
         bind:value={sortOption}
         on:change={sortBlogs}
       >
-        <option value="" disabled selected>Sort by</option>
+        <option value="" disabled selected>Sort by Price</option>
         <option value="asc">Price (Lowest to Highest)</option>
         <option value="desc">Price (Highest to Lowest)</option>
       </select>
+      <select
+        class="shadow appearance-none border rounded w-full md:w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        bind:value={genreOption}
+        on:change={filterBlogsByGenre}
+      >
+        <option value="" disabled selected>Filter by Genre</option>
+        <!-- Add other genres here -->
+        <option value="Tech">Tech</option>
+        <option value="Health">Health</option>
+        <option value="Finance">Finance</option>
+        <option value="Travel">Travel</option>
+      </select>
     </div>
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-    >
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {#if blogs.length === 0}
         <p class="text-center col-span-full">No blogs found.</p>
       {/if}
       {#each blogs as blog}
         <a
-          href="#"
+          href="javascript:void(0)"
           class="bg-white p-6 rounded-lg shadow-md border hover:shadow-lg transition-shadow duration-300"
+          on:click={() => goToBlogPage(blog.id)}
         >
           <h2 class="text-2xl font-semibold mb-2">{blog.title}</h2>
-          <p class="text-gray-700 mb-4">{blog.content}</p>
+          <p class="text-gray-700 mb-4">{blog.content.substring(0, 100)}{blog.content.length > 100 ? '...' : ''}</p>
           <p class="text-indigo-600 font-bold">Price: {blog.price} ETH</p>
           <p class="text-gray-500">Genre: {blog.genre}</p>
+          <p class="text-indigo-600 underline">Read More</p>
         </a>
       {/each}
     </div>

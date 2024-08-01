@@ -58,7 +58,7 @@
     }
   }
 
-  function alertMessage(message, color) {
+  function alertMessage(message: string, color: string) {
     const alertDiv = document.createElement("div");
     alertDiv.style.backgroundColor = color === "green" ? "#e6ffed" : "#ffe6e6";
     alertDiv.style.color = color === "green" ? "#256029" : "#8a2626";

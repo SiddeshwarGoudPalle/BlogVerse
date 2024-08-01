@@ -4,6 +4,7 @@ export const isAuthenticated = writable(false);
 
 export function checkAuthentication() {
   const token = localStorage.getItem('token');
+  console.log(token);
   isAuthenticated.set(!!token);
 }
 
