@@ -6,7 +6,6 @@
   type Blog = {
     id: string;
     title: string;
-    content: string;
     price: number;
     genre: string;
   };
@@ -85,9 +84,9 @@
     }
   }
 
-  // Navigate to the blog detail page
-  function goToBlogPage(blogId: string) {
-    goto(`/blogpage/${blogId}`);
+  // Handle blog click to navigate to the blog detail page
+  function handleBlogClick(blogId: string) {
+    goto(`/BlogPage/${blogId}`);
   }
 
   // Fetch blogs initially
@@ -143,28 +142,23 @@
         <p class="text-center col-span-full">No blogs found.</p>
       {/if}
       {#each blogs as blog}
-        <a
-          href="javascript:void(0)"
-          class="bg-yellow-300 p-6 rounded-lg shadow-lg mb-8 transition-transform transform hover:scale-105 hover:shadow-xl"
-          on:click={() => goToBlogPage(blog.id)}
+        <div
+          class="bg-yellow-300 p-6 rounded-lg shadow-lg mb-8 transition-transform transform hover:scale-105 hover:shadow-xl cursor-pointer"
+          on:click={() => handleBlogClick(blog.id)}
         >
           <h2 class="text-2xl font-semibold mb-2 text-gray-800">
             {blog.title}
           </h2>
-          <p class="text-gray-700 mb-4">
-            {blog.content.substring(0, 100)}{blog.content.length > 100
-              ? "..."
-              : ""}
-          </p>
+          {#if blog.price > 0}
+            <p class="text-gray-700 mb-4">
+              This blog requires payment to view.
+            </p>
+          {/if}
           <p class="text-indigo-600 font-bold">Price: {blog.price} ETH</p>
           <p class="text-gray-500">Genre: {blog.genre}</p>
           <p class="text-indigo-600 underline">Read More</p>
-        </a>
+        </div>
       {/each}
     </div>
   </div>
 </section>
-
-<style>
-  /* Add any custom styles if needed */
-</style>

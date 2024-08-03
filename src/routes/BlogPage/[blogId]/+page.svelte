@@ -25,7 +25,7 @@
 
   let hasPaid = false;
   let showPaymentForm = false;
-  let amount: number;
+  let amount: number = 0;
 
   // Extract blogId from the URL
   $: {
@@ -82,13 +82,13 @@
   // Handle payment submission
   async function handlePayment(paymentAmount: number) {
     try {
-      console.log("handle payment");
       await custom_axios.post("http://localhost:3000/payments/pay-to-view", {
         userId,
         blogId: blog?.id,
         amount: paymentAmount,
       });
       hasPaid = true;
+      showPaymentForm = false;
       invalidate("form"); // Invalidate the form to reflect changes
     } catch (error) {
       console.error("Payment error:", error);
@@ -105,9 +105,9 @@
 
 <div class="container mx-auto p-8">
   {#if blog}
-    <div class="blog-details bg-ywllow-300 p-8 rounded-lg shadow-lg">
+    <div class="blog-details bg-yellow-300 p-8 rounded-lg shadow-lg">
       {#if form?.success}
-        <h1>{form?.success}</h1>
+        <h1 class="text-green-500">{form?.success}</h1>
       {/if}
       <h1 class="title text-4xl font-bold mb-6 text-center text-blue-900">
         {blog.title}
@@ -188,7 +188,7 @@
                 <input type="hidden" name="blogTitle" bind:value={blog.title} />
                 <button
                   type="submit"
-                  class="bg-yellow-300 text-white font-bold mt-5 ml-2 px-4 py-2 rounded border border-gray-300 hover:bg-yellow-400 transition-transform transform hover:scale-105"
+                  class="bg-blue-500 text-white font-bold mt-5 ml-2 px-4 py-2 rounded border border-gray-300 hover:bg-yellow-400 transition-transform transform hover:scale-105"
                 >
                   Tip Author
                 </button>
@@ -241,7 +241,7 @@
               <input type="hidden" name="blogTitle" bind:value={blog.title} />
               <button
                 type="submit"
-                class="bg-white text-black font-bold mt-5 ml-2 px-4 py-2 rounded border border-gray-300 hover:bg-gray-100 transition-transform transform hover:scale-105"
+                class="bg-blue-500 text-white font-bold mt-5 ml-2 px-4 py-2 rounded border border-gray-300 hover:bg-gray-100 transition-transform transform hover:scale-105"
               >
                 Pay to View
               </button>
@@ -250,55 +250,12 @@
         {:else}
           <button
             on:click={() => (showPaymentForm = true)}
-            class="btn btn-primary"
+            class="bg-blue-500 text-white font-bold mt-5 ml-2 px-4 py-2 rounded border border-gray-300 hover:bg-yellow-400 transition-transform transform hover:scale-105"
           >
             Pay {blog.price} Satoshis to View
           </button>
         {/if}
       </div>
     </div>
-  {:else}
-    <p class="text-center text-gray-700">Loading blog details...</p>
   {/if}
 </div>
-
-<style>
-  .container {
-    max-width: 800px;
-  }
-
-  .blog-details {
-    background-color: #f8fafc;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-    margin-top: 2rem;
-  }
-
-  .title {
-    color: #1e3a8a;
-  }
-
-  .author,
-  .wallet {
-    font-size: 1.125rem;
-    margin-bottom: 1rem;
-  }
-
-  .content {
-    font-size: 1rem;
-    color: #334155;
-  }
-
-  .btn-primary {
-    background-color: #3b82f6;
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.375rem;
-    transition: background-color 0.2s;
-  }
-
-  .btn-primary:hover {
-    background-color: #2563eb;
-  }
-</style>

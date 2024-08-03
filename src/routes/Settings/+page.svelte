@@ -3,8 +3,8 @@
   import axios from "../../axios/AxiosSetup";
   import { ApiConstants } from "../../api/apiConstants";
   import { onMount } from "svelte";
-  import { logout } from '../../stores/user';
-  import { goto } from '$app/navigation';
+  import { logout } from "../../stores/user";
+  import { goto } from "$app/navigation";
 
   let email = "";
   let username = "";
@@ -47,16 +47,12 @@
 
   async function validateEmail() {
     try {
-      await axios.patch(ApiConstants.Auth.UPDATE_EMAIL, {
-        newEmail: email,
-      });
-      emailAlert = "Email successfully updated! Please log in again to continue.";
+      await axios.patch(ApiConstants.Auth.UPDATE_EMAIL, { newEmail: email });
+      emailAlert =
+        "Email successfully updated! Please log in again to continue.";
       emailAlertSuccess = true;
       showChangeEmail = false;
-      // Call handleLogout to log out the user and redirect to login page
-      setTimeout(() => {
-        handleLogout();
-      }, 1000); // Delay to allow the user to see the alert message
+      setTimeout(() => handleLogout(), 1000);
     } catch (error) {
       emailAlert = error.response?.data?.message || "Failed to update email";
       emailAlertSuccess = false;
@@ -72,7 +68,8 @@
       usernameAlertSuccess = true;
       showChangeUsername = false;
     } catch (error) {
-      usernameAlert = error.response?.data?.message || "Failed to update username";
+      usernameAlert =
+        error.response?.data?.message || "Failed to update username";
       usernameAlertSuccess = false;
     }
   }
@@ -87,7 +84,8 @@
       passwordAlertSuccess = true;
       showChangePassword = false;
     } catch (error) {
-      passwordAlert = error.response?.data?.message || "Failed to update password";
+      passwordAlert =
+        error.response?.data?.message || "Failed to update password";
       passwordAlertSuccess = false;
     }
   }
@@ -100,16 +98,20 @@
   });
 
   function handleLogout() {
-    alert("Email successfully updated. Please log in again with the updated email.");
+    alert(
+      "Email successfully updated. Please log in again with the updated email."
+    );
     logout();
-    goto('/');
+    goto("/");
   }
 </script>
 
 <section id="settings" class="bg-gray-100 py-8">
   <div class="container mx-auto px-4 max-w-3xl">
     <!-- Account Settings Section -->
-    <div class="bg-yellow-300 p-6 rounded-lg shadow-lg mb-8 transition-transform transform hover:scale-105 hover:shadow-xl">
+    <div
+      class="bg-yellow-300 p-6 rounded-lg shadow-lg mb-8 transition-transform transform hover:scale-105 hover:shadow-xl"
+    >
       <h2 class="text-3xl font-bold mb-4 text-gray-800">Account Settings</h2>
 
       <!-- Email Section -->
@@ -122,11 +124,6 @@
         </button>
         {#if showChangeEmail}
           <div class="mt-4">
-            {#if emailAlert}
-              <div class="alert {emailAlertSuccess ? 'success' : 'failure'}">
-                {emailAlert}
-              </div>
-            {/if}
             <input
               type="email"
               placeholder="Enter new email"
@@ -134,8 +131,9 @@
               class="w-full px-4 py-2 border border-gray-300 rounded-lg"
             />
             <button
-              class="mt-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
-              on:click={validateEmail}>Change Email</button>
+              class="mt-2 px-4 py-2 bg-blue-800 text-white rounded-lg hover:bg-gray-800"
+              on:click={validateEmail}>Change Email</button
+            >
           </div>
         {/if}
       </div>
@@ -150,11 +148,6 @@
         </button>
         {#if showChangeUsername}
           <div class="mt-4">
-            {#if usernameAlert}
-              <div class="alert {usernameAlertSuccess ? 'success' : 'failure'}">
-                {usernameAlert}
-              </div>
-            {/if}
             <input
               type="text"
               placeholder="Enter new username"
@@ -162,8 +155,9 @@
               class="w-full px-4 py-2 border border-gray-300 rounded-lg"
             />
             <button
-              class="mt-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
-              on:click={validateUsername}>Change Username</button>
+              class="mt-2 px-4 py-2 bg-blue-800 text-white rounded-lg hover:bg-gray-800"
+              on:click={validateUsername}>Change Username</button
+            >
           </div>
         {/if}
       </div>
@@ -178,11 +172,6 @@
         </button>
         {#if showChangePassword}
           <div class="mt-4">
-            {#if passwordAlert}
-              <div class="alert {passwordAlertSuccess ? 'success' : 'failure'}">
-                {passwordAlert}
-              </div>
-            {/if}
             <input
               type="password"
               placeholder="Enter old password"
@@ -196,11 +185,31 @@
               class="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg"
             />
             <button
-              class="mt-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
-              on:click={validatePassword}>Change Password</button>
+              class="mt-2 px-4 py-2 bg-blue-800 text-white rounded-lg hover:bg-gray-800"
+              on:click={validatePassword}>Change Password</button
+            >
           </div>
         {/if}
       </div>
+    </div>
+
+    <!-- Alert Messages Section -->
+    <div class="bg-white p-4 rounded-lg shadow-md">
+      {#if emailAlert}
+        <div class={`alert ${emailAlertSuccess ? "success" : "failure"}`}>
+          {emailAlert}
+        </div>
+      {/if}
+      {#if usernameAlert}
+        <div class={`alert ${usernameAlertSuccess ? "success" : "failure"}`}>
+          {usernameAlert}
+        </div>
+      {/if}
+      {#if passwordAlert}
+        <div class={`alert ${passwordAlertSuccess ? "success" : "failure"}`}>
+          {passwordAlert}
+        </div>
+      {/if}
     </div>
   </div>
 </section>
@@ -208,7 +217,7 @@
 <style>
   .alert {
     padding: 10px;
-    margin-bottom: 8px;
+    margin-top: 8px;
     text-align: center;
     border-left-width: 5px;
   }

@@ -48,7 +48,7 @@
 
 <div class="p-0 rounded-lg shadow-md my-2 hover:shadow-xl">
   {#if successMessage}
-    <div class="bg-green-500 text-white p-4 rounded mb-4">
+    <div class="bg-green-200 text-green-800 p-4 rounded mb-4">
       {successMessage}
     </div>
   {/if}
@@ -83,7 +83,7 @@
         />
       </div>
 
-      <div class="mb-4">
+      <div class="mb-0">
         <label for="content" class="block text-gray-700 text-sm font-bold mb-2"
           >Content</label
         >
@@ -156,7 +156,7 @@
       <div class="mb-4 items-center">
         <button
           type="submit"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105"
+          class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105"
         >
           Publish Blog
         </button>

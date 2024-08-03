@@ -55,7 +55,6 @@
   });
 </script>
 
-
 {#if errorMessage}
   <div class="bg-red-500 text-white p-4 rounded-lg shadow-md mb-4">
     {errorMessage}
@@ -77,13 +76,15 @@
       <ul class="space-y-6">
         {#each blogs as blog}
           <li
-            class="bg-gray shadow-lg rounded-lg p-6 border border-yellow-300 hover:bg-gray-50 transition duration-300 ease-in-out"
+            class="bg-gray shadow-lg rounded-lg p-6 border-4 border-yellow-300 hover:bg-gray-50 transition duration-300 ease-in-out"
           >
             <h2 class="text-2xl font-semibold text-gray-800">{blog.title}</h2>
             <p class="text-gray-700 mt-2">{blog.content}</p>
             <div class="mt-4">
               <p class="text-gray-500">
-                Genre: <span class="font-medium text-gray-700">{blog.genre}</span>
+                Genre: <span class="font-medium text-gray-700"
+                  >{blog.genre}</span
+                >
               </p>
               <p class="text-gray-500">
                 Price: <span class="font-medium text-gray-700"
@@ -97,5 +98,3 @@
     </div>
   </div>
 {/if}
-
-

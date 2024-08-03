@@ -69,7 +69,7 @@
     >
       <img src="Feature2.png" alt="Feature 2" class="mb-4 mx-auto w-16 h-12" />
       <h3 class="text-xl font-semibold mb-2 text-gray-700">
-        Seamless Wallet Integration: 
+        Seamless Wallet Integration:
       </h3>
       <p class="text-gray-500">
         Easily connect your blockchain wallet to manage payments and tips.
@@ -80,10 +80,11 @@
     >
       <img src="Feature2.png" alt="Feature 2" class="mb-4 mx-auto w-16 h-12" />
       <h3 class="text-xl font-semibold mb-2 text-gray-700">
-        Support Your Favorite Authors: 
+        Support Your Favorite Authors:
       </h3>
       <p class="text-gray-500">
-        Readers can tip authors for free content, helping them earn even from free posts.
+        Readers can tip authors for free content, helping them earn even from
+        free posts.
       </p>
     </div>
     <!-- Add more feature boxes as needed -->
@@ -138,37 +139,37 @@
     Latest from BlogVerse
   </h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-    <div
-      class="bg-gray-100 p-6 rounded-lg  shadow-md transition-transform transform hover:scale-105"
+    <!-- Blog Item 1 -->
+    <a
+      href="/BlogPage/[blogId]"
+      class="bg-gray-100 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
     >
       <h3 class="text-xl font-semibold mb-2 text-gray-700">
-        Blockchain 2.0: What’s Next for Blockchain Technology?
+        The Power of Preventive Care
       </h3>
       <p class="text-gray-500 mb-4">
-        Explore the emerging trends and innovations in blockchain technology,
-        including smart contracts, decentralized finance (DeFi), and new
-        consensus algorithms.
+        Regular check-ups and a healthy lifestyle play a crucial role in
+        preventing major health issues. By focusing on preventive care, you can
+        catch potential health problems early, reducing the risk of developing
+        serious conditions.
       </p>
-      <a
-        href="https://www.ibm.com/blog/the-future-of-blockchain/"
-        class="text-blue-500 hover:underline">Read More</a
-      >
-    </div>
-    <div
-      class="bg-gray-100 p-6 rounded-lg shadow-md shadow-md transition-transform transform hover:scale-105"
+      <p class="text-blue-500 hover:underline">Read More</p>
+    </a>
+
+    <!-- Blog Item 2 -->
+    <a
+      href="/BlogPage/[blogId]"
+      class="bg-gray-100 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
     >
       <h3 class="text-xl font-semibold mb-2 text-gray-700">
-        How Remote Work is Changing the Modern Workplace
+        Top Destinations for a Memorable Weekend Getaway
       </h3>
       <p class="text-gray-500 mb-4">
-        Discover the advantages and challenges of remote work, and how
-        businesses are adapting to this new work environment.
+        Napa Valley, California - Perfect for wine enthusiasts and those seeking
+        relaxation amidst stunning vineyards.
       </p>
-      <a
-        href="https://blog.hubspot.com/marketing/remote-work-trends"
-        class="text-blue-500 hover:underline">Read More</a
-      >
-    </div>
+      <p class="text-blue-500 hover:underline">Read More</p>
+    </a>
   </div>
 </section>
 
