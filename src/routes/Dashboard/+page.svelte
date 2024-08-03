@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import custom_axios from '../../axios/AxiosSetup';
+  import { onMount } from "svelte";
+  import custom_axios from "../../axios/AxiosSetup";
+  import { goto } from "$app/navigation"; // SvelteKit's built-in navigation function
 
   type Blog = {
     id: string;
@@ -20,20 +21,21 @@
   // Fetch recent blogs on component mount
   onMount(async () => {
     try {
-      const response = await custom_axios.get('/api/blogs/'); // Fetch all recent blogs
+      const response = await custom_axios.get("/api/blogs/"); // Fetch all recent blogs
       recentBlogs = response.data.slice(0, limit); // Limit the number of blogs on the frontend
     } catch (error) {
-      console.error('Error fetching recent blogs:', error);
+      console.error("Error fetching recent blogs:", error);
     }
   });
 
   // Fetch blogs by genre
   async function fetchBlogsByGenre(genre: string) {
     try {
-      const response = await custom_axios.get(`/api/blogs/search/genre?genre=${genre}`);
+      const response = await custom_axios.get("/api/blogs/search/genre", {
+        params: { genre },
+      });
       filteredBlogs = response.data;
       if (filteredBlogs.length === 0) {
-        // If no blogs found, you can set a message to be displayed
         filteredBlogs = [];
       }
     } catch (error) {
@@ -45,17 +47,25 @@
     selectedCategory = category;
     fetchBlogsByGenre(category);
   }
+
+  function handleBlogClick(blogId: string) {
+    goto(`/BlogPage/${blogId}`);
+  }
+
+  function isBlogFree(blog: Blog): boolean {
+    return blog.price === 0;
+  }
 </script>
 
-<div class="flex min-h-screen bg-gray-50">
+<div class="flex min-h-screen bg-gray-100">
   <!-- Sidebar -->
-  <aside class="w-1/4 bg-yellow-300 text-white p-6 shadow-lg  hover:shadow-xl rounded-lg">
+  <aside class="w-1/4 bg-gray-300 text-white p-6 shadow-lg hover:shadow-xl">
     <h2 class="text-2xl font-bold mb-6 text-gray-800">Categories</h2>
     <ul>
       {#each categories as category}
         <li class="mb-4">
-          <button 
-            class="w-full px-3 py-2 bg-gray-700 rounded hover:bg-gray-600 text-left"
+          <button
+            class="w-full px-3 py-2 bg-gray-500 rounded hover:bg-gray-600 text-left"
             on:click={() => handleCategoryClick(category)}
             type="button"
           >
@@ -65,11 +75,11 @@
       {/each}
     </ul>
 
-    <h2 class="text-2xl font-bold mt-10 mb-6 text-gray-800">Notifications</h2>
+    <h2 class="text-2xl font-bold mt-10 mb-6 text-gray-700">Notifications</h2>
     <ul>
       {#each notifications as notification}
         <li class="mb-4">
-          <div class="px-3 py-2 bg-gray-700 rounded">
+          <div class="px-3 py-2 bg-gray-500 rounded">
             {notification}
           </div>
         </li>
@@ -79,16 +89,27 @@
 
   <!-- Main Content -->
   <main class="flex-1 p-6">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="min-h-screen grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Recent Blogs -->
-      <section class="bg-yellow-300 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl">
+      <section class="bg-yellow-300 p-6 rounded-lg shadow-lg hover:shadow-xl">
         <h2 class="text-2xl font-bold mb-4 text-gray-800">Recent Blogs</h2>
         <ul>
           {#each recentBlogs as blog}
-            <li class="mb-4 bg-white p-4 rounded shadow">
+            <li
+              class="mb-4 bg-white p-4 rounded shadow cursor-pointer transition-transform transform hover:scale-105"
+              on:click={() => handleBlogClick(blog.id)}
+            >
               <h3 class="text-lg font-semibold">{blog.title}</h3>
-              <p>{blog.content}</p>
-              <p class="text-sm text-gray-600">Price: ${blog.price}</p>
+              {#if isBlogFree(blog)}
+                <p>{blog.content}</p>
+              {:else}
+                <p class="text-sm text-gray-600">Price: ${blog.price}</p>
+                <button
+                  class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Pay to View
+                </button>
+              {/if}
             </li>
           {/each}
         </ul>
@@ -96,22 +117,33 @@
 
       <!-- Filtered Blogs by Genre -->
       {#if selectedCategory}
-      <section class="bg-gray-100 p-6 rounded-lg shadow-md">
-        <h2 class="text-xl font-bold mb-4">Blogs in {selectedCategory}</h2>
-        {#if filteredBlogs.length === 0}
-          <p>No blogs found in this category. </p>
-        {:else}
-          <ul>
-            {#each filteredBlogs as blog}
-              <li class="mb-4 bg-white p-4 rounded shadow">
-                <h3 class="text-lg font-semibold">{blog.title}</h3>
-                <p>{blog.content}</p>
-                <p class="text-sm text-gray-600">Price: ${blog.price}</p>
-              </li>
-            {/each}
-          </ul>
-        {/if}
-      </section>
+        <section class="bg-yellow-300 p-6 rounded-lg shadow-md hover:shadow-xl">
+          <h2 class="text-xl font-bold mb-4">Blogs in {selectedCategory}</h2>
+          {#if filteredBlogs.length === 0}
+            <p>No blogs found in this category.</p>
+          {:else}
+            <ul>
+              {#each filteredBlogs as blog}
+                <li
+                  class="mb-4 bg-white p-4 rounded shadow cursor-pointer transition-transform transform hover:scale-105"
+                  on:click={() => handleBlogClick(blog.id)}
+                >
+                  <h3 class="text-lg font-semibold">{blog.title}</h3>
+                  {#if isBlogFree(blog)}
+                    <p>{blog.content}</p>
+                  {:else}
+                    <p class="text-sm text-gray-600">Price: ${blog.price}</p>
+                    <button
+                      class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    >
+                      Pay to View
+                    </button>
+                  {/if}
+                </li>
+              {/each}
+            </ul>
+          {/if}
+        </section>
       {/if}
     </div>
   </main>

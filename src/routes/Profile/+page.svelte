@@ -4,16 +4,17 @@
   import { writable } from "svelte/store";
 
   export let form;
-  let isWalletConnected = form?.success;
+  let isWalletConnected = writable(false); // Start as false
   let user = {
     username: "",
     email: "",
   };
   let userId = "";
-  let inputEmail = "";
-  let inputPassword = "";
   let transactionHistory = writable([]);
+  let showPopup = writable(false); // Control the visibility of the popup
+  let statusMessage = writable(""); // Status message for success or failure
 
+  // Fetch user details
   async function fetchUserDetails() {
     try {
       const response = await custom_axios.get("/auth/details");
@@ -25,6 +26,7 @@
     }
   }
 
+  // Fetch user payments
   async function fetchUserPayments(userId: string) {
     try {
       const response = await custom_axios.get(`/payments/user/${userId}`);
@@ -34,81 +36,42 @@
     }
   }
 
+  // Connect wallet (only after successful login)
   async function connectWallet() {
     try {
+      console.log("Connecting wallet...");
       const response = await custom_axios.post("/wallet/connect", {
         walletAddress: form?.address,
       });
-      alertMessage(response.data.message, "green");
-      isWalletConnected = true;
+      isWalletConnected.set(true);
+      statusMessage.set("Wallet connected successfully."); // Success message
     } catch (error) {
-      alertMessage("Error connecting wallet", "red");
+      console.error("Error connecting wallet:", error);
+      statusMessage.set("Failed to connect wallet. Please try again."); // Failure message
     }
   }
 
-  async function signupForWallet(email, password) {
-    try {
-      const response = await custom_axios.post("/auth/signup", {
-        email,
-        password,
-      });
-      alertMessage("Wallet Created Successfully", "green");
-    } catch (error) {
-      alertMessage("Error creating wallet", "red");
-    }
+  // Toggle popup visibility
+  function toggleSignupPopup() {
+    showPopup.update((value) => !value);
   }
 
-  function alertMessage(message: string, color: string) {
-    const alertDiv = document.createElement("div");
-    alertDiv.style.backgroundColor = color === "green" ? "#e6ffed" : "#ffe6e6";
-    alertDiv.style.color = color === "green" ? "#256029" : "#8a2626";
-    alertDiv.style.border = `1px solid ${color === "green" ? "#256029" : "#8a2626"}`;
-    alertDiv.innerText = message;
-    alertDiv.className = "p-4 mb-4 rounded fixed bottom-0 right-0 m-4 z-50";
-    document.body.appendChild(alertDiv);
-    setTimeout(() => alertDiv.remove(), 3000); // Show alert for 3 seconds
-  }
-
-  function showSignupPopup() {
-    const popup = document.createElement("div");
-    popup.className =
-      "fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50";
-    popup.innerHTML = `
-      <div class="bg-gray-100 p-6 rounded shadow-lg max-w-sm w-full">
-        <h2 class="text-lg font-bold mb-4">Sign Up for Wallet</h2>
-        <label for="signup-email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input type="email" id="signup-email" class="block w-full px-3 py-2 border rounded mb-4" required>
-        <label for="signup-password" class="block text-sm font-medium text-gray-700">Password</label>
-        <input type="password" id="signup-password" class="block w-full px-3 py-2 border rounded mb-4" required>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="submitSignup()">Submit</button>
-        <button class="bg-red-500 text-white px-4 py-2 rounded mt-2" onclick="closePopup()">Cancel</button>
-      </div>
-    `;
-    document.body.appendChild(popup);
-  }
-
-  function closePopup() {
-    const popup = document.querySelector(".fixed.inset-0");
-    if (popup) popup.remove();
-  }
-
+  // Submit signup form
   async function submitSignup() {
-    const email = (document.getElementById("signup-email") as HTMLInputElement).value;
-    const password = (document.getElementById("signup-password") as HTMLInputElement).value;
-    if (email && password) {
-      await signupForWallet(email, password);
-      closePopup();
-    } else {
-      alertMessage("Please fill out all fields", "red");
-    }
+    toggleSignupPopup();
+  }
+
+  // Check if login was successful and connect wallet
+  $: if (form?.success && form?.address) {
+    connectWallet();
   }
 
   onMount(() => {
     fetchUserDetails();
   });
 </script>
-<section id="profile" class="bg-gray-100 py-8">
-<div class="p-6 max-w-3xl mx-auto bg-yellow-300 rounded-xl shadow-md space-y-6 mt-12 ">
+
+<div class="p-6 max-w-3xl mx-auto bg-gray-100 rounded-xl shadow-md space-y-6">
   <div class="flex items-center space-x-4">
     <svg
       class="user-icon w-12 h-12 text-gray-900"
@@ -129,24 +92,28 @@
     <div class="text-gray-900 text-xl font-semibold">
       Enter Neucron Wallet Credentials to connect the Wallet
     </div>
-    <form method="POST" action="?/login" class="mt-4">
+    <form
+      method="POST"
+      action="?/login"
+      on:submit|preventDefault={submitSignup}
+    >
       <div class="flex flex-wrap -mx-3 mb-2">
-        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0 transition-transform transform hover:scale-105">
+        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="email font "
+            for="email"
           >
             Email
           </label>
           <input
-            class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="email"
-            type="email"
+            type="text"
             placeholder="Enter email"
             name="email"
           />
         </div>
-        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0 transition-transform transform hover:scale-105">
+        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
           <label
             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             for="password"
@@ -154,7 +121,7 @@
             Password
           </label>
           <input
-            class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="password"
             type="password"
             placeholder="Enter password"
@@ -162,9 +129,8 @@
           />
         </div>
         <button
-          on:click={connectWallet}
-          type="button"
-          class="bg-white text-black font-bold mt-5 ml-2 px-4 py-2 rounded border border-gray-300 hover:bg-gray-100 transition-transform transform hover:scale-105"
+          type="submit"
+          class="bg-yellow-500 hover:bg-blue-700 text-white font-bold mt-5 ml-2 px-2 rounded"
         >
           Connect Wallet
         </button>
@@ -172,12 +138,11 @@
     </form>
     <div class="mt-2 text-sm">
       Didn't SignUp for the Wallet?
-      <a href="#" on:click={showSignupPopup} class="text-blue-500 underline">SignUp</a>
+      <a href="#" on:click={toggleSignupPopup}>SignUp</a>
     </div>
   </div>
 
-
-  {#if isWalletConnected}
+  {#if $isWalletConnected}
     <div class="mt-4">
       <div class="flex items-center space-x-4">
         <svg
@@ -194,6 +159,15 @@
           <div class="text-gray-500">Wallet Balance: {form?.balance}</div>
         </div>
       </div>
+    </div>
+  {/if}
+
+  <!-- Display status message -->
+  {#if $statusMessage}
+    <div
+      class="mt-4 p-4 bg-green-100 border-l-4 border-green-500 text-green-700"
+    >
+      {$statusMessage}
     </div>
   {/if}
 
@@ -221,8 +195,66 @@
       {/each}
     </ul>
   </div>
+
+  <!-- Signup Popup -->
+  {#if $showPopup}
+    <div
+      class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75"
+    >
+      <div class="bg-white p-6 rounded shadow-lg max-w-sm w-full">
+        <h2 class="text-lg font-bold mb-4">Sign Up for Wallet</h2>
+        <form
+          method="POST"
+          action="?/signup"
+          on:submit|preventDefault={submitSignup}
+        >
+          <div class="flex flex-wrap -mx-3 mb-2">
+            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="signup-email"
+              >
+                Email
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="signup-email"
+                type="text"
+                placeholder="Enter email"
+                name="email"
+              />
+            </div>
+            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="signup-password"
+              >
+                Password
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="signup-password"
+                type="password"
+                placeholder="Enter password"
+                name="password"
+              />
+            </div>
+            <button
+              type="submit"
+              class="bg-yellow-500 hover:bg-blue-700 text-white font-bold mt-5 ml-2 px-2 rounded"
+            >
+              Signup
+            </button>
+          </div>
+        </form>
+        <button
+          class="bg-red-500 text-white px-4 py-2 rounded mt-4"
+          on:click={toggleSignupPopup}>Close</button
+        >
+      </div>
+    </div>
+  {/if}
 </div>
-</section>
 
 <style>
   .user-icon,
@@ -232,13 +264,5 @@
   }
   .history-icon {
     height: 1.5em; /* Adjust height to match text */
-  }
-  /* Additional Styles */
-  .fixed.inset-0 {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 </style>

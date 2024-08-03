@@ -13,6 +13,12 @@ export const ApiConstants = {
     GET_USER_BY_ID:(userId:string)=>{
       return "/api/blogs/search"+userId;
     }
+  },
+  Payments :{
+    PAY: "/payments/pay-to-view",
+    PAYMENT_DETAILS:(userId:string)=>{
+      return "payments/user"
   }
+}
 
 };

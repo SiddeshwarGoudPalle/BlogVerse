@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { goto } from '$app/navigation';
-  import custom_axios from '../../axios/AxiosSetup';
+  import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
+  import custom_axios from "../../axios/AxiosSetup";
 
   type Blog = {
     id: string;
@@ -19,10 +19,12 @@
   // Fetch all blogs on component mount
   async function fetchBlogs() {
     try {
-      const response = await custom_axios.get('http://localhost:3000/api/blogs');
+      const response = await custom_axios.get(
+        "http://localhost:3000/api/blogs"
+      );
       blogs = response.data;
     } catch (error) {
-      console.error('Error fetching blogs:', error);
+      console.error("Error fetching blogs:", error);
     }
   }
 
@@ -30,15 +32,18 @@
   async function searchBlogs() {
     try {
       if (searchQuery.trim()) {
-        const response = await custom_axios.get(`http://localhost:3000/api/blogs/search/title`, {
-          params: { title: searchQuery },
-        });
+        const response = await custom_axios.get(
+          "http://localhost:3000/api/blogs/search/title",
+          {
+            params: { title: searchQuery },
+          }
+        );
         blogs = response.data;
       } else {
         fetchBlogs();
       }
     } catch (error) {
-      console.error('Error searching blogs:', error);
+      console.error("Error searching blogs:", error);
     }
   }
 
@@ -46,15 +51,18 @@
   async function sortBlogs() {
     try {
       if (sortOption) {
-        const response = await custom_axios.get(`http://localhost:3000/api/blogs/sorted-by-price`, {
-          params: { order: sortOption },
-        });
+        const response = await custom_axios.get(
+          "http://localhost:3000/api/blogs/sorted-by-price",
+          {
+            params: { order: sortOption },
+          }
+        );
         blogs = response.data;
       } else {
         fetchBlogs();
       }
     } catch (error) {
-      console.error('Error sorting blogs:', error);
+      console.error("Error sorting blogs:", error);
     }
   }
 
@@ -62,15 +70,18 @@
   async function filterBlogsByGenre() {
     try {
       if (genreOption) {
-        const response = await custom_axios.get(`http://localhost:3000/api/blogs/search/genre`, {
-          params: { genre: genreOption },
-        });
+        const response = await custom_axios.get(
+          "http://localhost:3000/api/blogs/search/genre",
+          {
+            params: { genre: genreOption },
+          }
+        );
         blogs = response.data;
       } else {
         fetchBlogs();
       }
     } catch (error) {
-      console.error('Error filtering blogs by genre:', error);
+      console.error("Error filtering blogs by genre:", error);
     }
   }
 
@@ -85,11 +96,16 @@
   });
 </script>
 
-<div class="p-8 rounded-lg shadow-md my-2">
-  <div class="bg-gray-100 py-8 px-4 mx-auto max-w-screen-xl">
-    <h1 class="text-3xl font-bold mb-6 antialiased text-center">
-      Browse Blogs
-    </h1>
+<section id="browse-blogs" class="bg-gray-100 p-8">
+  <div class="container mx-auto px-4 max-w-3xl">
+    <div
+      class="bg-yellow-300 p-6 shadow-lg mb-8 flex flex-col md:flex-row items-center hover:shadow-xl"
+    >
+      <h1 class="text-3xl font-bold mb-4 text-gray-800 text-center w-full">
+        Browse Blogs
+      </h1>
+    </div>
+
     <div class="flex flex-col md:flex-row items-center mb-6 gap-4">
       <input
         type="text"
@@ -103,7 +119,7 @@
         bind:value={sortOption}
         on:change={sortBlogs}
       >
-        <option value="" disabled selected>Sort by Price</option>
+        <option value="">Sort by Price</option>
         <option value="asc">Price (Lowest to Highest)</option>
         <option value="desc">Price (Highest to Lowest)</option>
       </select>
@@ -112,26 +128,34 @@
         bind:value={genreOption}
         on:change={filterBlogsByGenre}
       >
-        <option value="" disabled selected>Filter by Genre</option>
-        <!-- Add other genres here -->
+        <option value="">Filter by Genre</option>
         <option value="Tech">Tech</option>
         <option value="Health">Health</option>
         <option value="Finance">Finance</option>
         <option value="Travel">Travel</option>
       </select>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    >
       {#if blogs.length === 0}
         <p class="text-center col-span-full">No blogs found.</p>
       {/if}
       {#each blogs as blog}
         <a
           href="javascript:void(0)"
-          class="bg-white p-6 rounded-lg shadow-md border hover:shadow-lg transition-shadow duration-300"
+          class="bg-yellow-300 p-6 rounded-lg shadow-lg mb-8 transition-transform transform hover:scale-105 hover:shadow-xl"
           on:click={() => goToBlogPage(blog.id)}
         >
-          <h2 class="text-2xl font-semibold mb-2">{blog.title}</h2>
-          <p class="text-gray-700 mb-4">{blog.content.substring(0, 100)}{blog.content.length > 100 ? '...' : ''}</p>
+          <h2 class="text-2xl font-semibold mb-2 text-gray-800">
+            {blog.title}
+          </h2>
+          <p class="text-gray-700 mb-4">
+            {blog.content.substring(0, 100)}{blog.content.length > 100
+              ? "..."
+              : ""}
+          </p>
           <p class="text-indigo-600 font-bold">Price: {blog.price} ETH</p>
           <p class="text-gray-500">Genre: {blog.genre}</p>
           <p class="text-indigo-600 underline">Read More</p>
@@ -139,7 +163,7 @@
       {/each}
     </div>
   </div>
-</div>
+</section>
 
 <style>
   /* Add any custom styles if needed */

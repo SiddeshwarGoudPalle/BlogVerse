@@ -1,3 +1,4 @@
+// @ts-ignore
 import NeucronSDK from "neucron-sdk";
 
 /** @type {import('./$types').Actions} */
@@ -30,6 +31,7 @@ export const actions = {
   },
 
   signup: async ({ request }) => {
+  
     const data = await request.formData();
 
     const neucron = new NeucronSDK();
@@ -41,6 +43,8 @@ export const actions = {
     });
     console.log(signUpResponse);
 
-    return { success: true };
-  },
-};
+    return { success: true,
+      message: "Wallet created successfully" };
+     
+  }
+}
