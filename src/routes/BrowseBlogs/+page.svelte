@@ -87,7 +87,7 @@
 
 <section id="browse-blogs" class="bg-gray-100 p-8">
   <div class="container mx-auto px-4 max-w-3xl">
-    <div class="bg-yellow-300 p-6  shadow-lg mb-8 flex flex-col md:flex-row items-center  hover:shadow-xl">
+    <div class="bg-yellow-300 p-6 shadow-lg mb-8 flex flex-col md:flex-row items-center hover:shadow-xl">
       <h1 class="text-3xl font-bold mb-4 text-gray-800 text-center w-full">
         Browse Blogs
       </h1>
@@ -106,9 +106,20 @@
         bind:value={sortOption}
         on:change={sortBlogs}
       >
-        <option value="" disabled selected>Sort by</option>
+        <option value="" disabled selected>Sort by Price</option>
         <option value="asc">Price (Lowest to Highest)</option>
         <option value="desc">Price (Highest to Lowest)</option>
+      </select>
+      <select
+        class="shadow appearance-none border rounded w-full md:w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        bind:value={genreOption}
+        on:change={filterBlogsByGenre}
+      >
+        <option value="" disabled selected>Filter by Genre</option>
+        <option value="Tech">Tech</option>
+        <option value="Health">Health</option>
+        <option value="Finance">Finance</option>
+        <option value="Travel">Travel</option>
       </select>
     </div>
 
@@ -118,16 +129,21 @@
       {/if}
       {#each blogs as blog}
         <a
-          href="#"
+          href="javascript:void(0)"
           class="bg-yellow-300 p-6 rounded-lg shadow-lg mb-8 transition-transform transform hover:scale-105 hover:shadow-xl"
           on:click={() => goToBlogPage(blog.id)}
         >
           <h2 class="text-2xl font-semibold mb-2 text-gray-800">{blog.title}</h2>
-          <p class="text-gray-700 mb-4">{blog.content}</p>
+          <p class="text-gray-700 mb-4">{blog.content.substring(0, 100)}{blog.content.length > 100 ? '...' : ''}</p>
           <p class="text-indigo-600 font-bold">Price: {blog.price} ETH</p>
           <p class="text-gray-500">Genre: {blog.genre}</p>
+          <p class="text-indigo-600 underline">Read More</p>
         </a>
       {/each}
     </div>
   </div>
 </section>
+
+<style>
+  /* Add any custom styles if needed */
+</style>

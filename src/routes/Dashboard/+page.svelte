@@ -31,10 +31,11 @@
   // Fetch blogs by genre
   async function fetchBlogsByGenre(genre: string) {
     try {
-      const response = await custom_axios.get(`/api/blogs/search/genre?genre=${genre}`);
+      const response = await custom_axios.get(`/api/blogs/search/genre`, {
+        params: { genre },
+      });
       filteredBlogs = response.data;
       if (filteredBlogs.length === 0) {
-        // If no blogs found, you can set a message to be displayed
         filteredBlogs = [];
       }
     } catch (error) {
@@ -99,7 +100,6 @@
               {#if isBlogFree(blog)}
                 <p>{blog.content}</p>
               {:else}
-                <!-- Show Pay to View button for non-free blogs -->
                 <p class="text-sm text-gray-600">Price: ${blog.price}</p>
                 <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                   Pay to View
@@ -112,7 +112,7 @@
 
       <!-- Filtered Blogs by Genre -->
       {#if selectedCategory}
-        <section class="bg-yellow-300 p-6 rounded-lg hover:shadow-xl shadow-md">
+        <section class="bg-yellow-300 p-6 rounded-lg shadow-md hover:shadow-xl">
           <h2 class="text-xl font-bold mb-4">Blogs in {selectedCategory}</h2>
           {#if filteredBlogs.length === 0}
             <p>No blogs found in this category.</p>
@@ -124,7 +124,6 @@
                   {#if isBlogFree(blog)}
                     <p>{blog.content}</p>
                   {:else}
-                    <!-- Show Pay to View button for non-free blogs -->
                     <p class="text-sm text-gray-600">Price: ${blog.price}</p>
                     <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                       Pay to View

@@ -213,15 +213,15 @@
     border-left-width: 5px;
   }
   .alert.success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-    border-left-color: #28a745;
+    background-color: #d4edda; /* Light green background */
+    color: #155724; /* Dark green text */
+    border: 1px solid #c3e6cb; /* Light green border */
+    border-left-color: #28a745; /* Dark green border-left */
   }
   .alert.failure {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    border-left-color: #dc3545;
+    background-color: #fdecea; /* Light red background */
+    color: #a94442; /* Dark red text */
+    border: 1px solid #ebccd1; /* Light red border */
+    border-left-color: #a94442; /* Dark red border-left */
   }
 </style>
