@@ -3,8 +3,10 @@
   import { page } from "$app/stores";
   import custom_axios from "../../../axios/AxiosSetup";
   import { invalidate } from "$app/navigation";
+
   /** @type {import('./$types').ActionData} */
   export let form;
+
   let blogId: string;
   let userId: string;
   let blog: {
@@ -20,6 +22,7 @@
       walletAddress: string;
     };
   } | null = null;
+
   let hasPaid = false;
   let showPaymentForm = false;
   let amount: number;
@@ -102,7 +105,7 @@
 
 <div class="container mx-auto p-8">
   {#if blog}
-    <div class="blog-details bg-gray-100 p-8 rounded-lg shadow-lg">
+    <div class="blog-details bg-ywllow-300 p-8 rounded-lg shadow-lg">
       {#if form?.success}
         <h1>{form?.success}</h1>
       {/if}
@@ -185,7 +188,7 @@
                 <input type="hidden" name="blogTitle" bind:value={blog.title} />
                 <button
                   type="submit"
-                  class="bg-yellow-500 text-white font-bold mt-5 ml-2 px-4 py-2 rounded border border-gray-300 hover:bg-yellow-400 transition-transform transform hover:scale-105"
+                  class="bg-yellow-300 text-white font-bold mt-5 ml-2 px-4 py-2 rounded border border-gray-300 hover:bg-yellow-400 transition-transform transform hover:scale-105"
                 >
                   Tip Author
                 </button>

@@ -83,7 +83,7 @@
         />
       </div>
 
-      <div class="mb-0">
+      <div class="mb-4">
         <label for="content" class="block text-gray-700 text-sm font-bold mb-2"
           >Content</label
         >
@@ -156,7 +156,7 @@
       <div class="mb-4 items-center">
         <button
           type="submit"
-          class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-transform transform hover:scale-105"
         >
           Publish Blog
         </button>

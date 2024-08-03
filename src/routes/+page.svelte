@@ -64,6 +64,28 @@
         from their content.
       </p>
     </div>
+    <div
+      class="bg-yellow-300 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
+    >
+      <img src="Feature2.png" alt="Feature 2" class="mb-4 mx-auto w-16 h-12" />
+      <h3 class="text-xl font-semibold mb-2 text-gray-700">
+        Seamless Wallet Integration: 
+      </h3>
+      <p class="text-gray-500">
+        Easily connect your blockchain wallet to manage payments and tips.
+      </p>
+    </div>
+    <div
+      class="bg-yellow-300 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
+    >
+      <img src="Feature2.png" alt="Feature 2" class="mb-4 mx-auto w-16 h-12" />
+      <h3 class="text-xl font-semibold mb-2 text-gray-700">
+        Support Your Favorite Authors: 
+      </h3>
+      <p class="text-gray-500">
+        Readers can tip authors for free content, helping them earn even from free posts.
+      </p>
+    </div>
     <!-- Add more feature boxes as needed -->
   </div>
 </section>
@@ -117,7 +139,7 @@
   </h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
     <div
-      class="bg-gray-100 p-6 rounded-lg shadow-md shadow-md transition-transform transform hover:scale-105"
+      class="bg-gray-100 p-6 rounded-lg  shadow-md transition-transform transform hover:scale-105"
     >
       <h3 class="text-xl font-semibold mb-2 text-gray-700">
         Blockchain 2.0: What’s Next for Blockchain Technology?

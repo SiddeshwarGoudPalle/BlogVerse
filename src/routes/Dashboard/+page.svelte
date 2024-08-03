@@ -31,7 +31,7 @@
   // Fetch blogs by genre
   async function fetchBlogsByGenre(genre: string) {
     try {
-      const response = await custom_axios.get("/api/blogs/search/genre", {
+      const response = await custom_axios.get(`/api/blogs/search/genre`, {
         params: { genre },
       });
       filteredBlogs = response.data;

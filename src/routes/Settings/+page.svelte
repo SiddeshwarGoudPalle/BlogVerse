@@ -47,7 +47,7 @@
 
   async function validateEmail() {
     try {
-      const response = await axios.patch(ApiConstants.Auth.UPDATE_EMAIL, {
+      await axios.patch(ApiConstants.Auth.UPDATE_EMAIL, {
         newEmail: email,
       });
       emailAlert = "Email successfully updated! Please log in again to continue.";
@@ -65,13 +65,12 @@
 
   async function validateUsername() {
     try {
-      const response = await axios.patch(ApiConstants.Auth.UPDATE_USERNAME, {
+      await axios.patch(ApiConstants.Auth.UPDATE_USERNAME, {
         newUsername: username,
       });
       usernameAlert = "Username successfully updated!";
       usernameAlertSuccess = true;
       showChangeUsername = false;
-      alert("Username updated successfully");
     } catch (error) {
       usernameAlert = error.response?.data?.message || "Failed to update username";
       usernameAlertSuccess = false;
@@ -80,12 +79,11 @@
 
   async function validatePassword() {
     try {
-      const response = await axios.patch(ApiConstants.Auth.UPDATE_PASSWORD, {
+      await axios.patch(ApiConstants.Auth.UPDATE_PASSWORD, {
         oldPassword,
         newPassword,
       });
       passwordAlert = "Password successfully updated!";
-      alert("Password updated successfully");
       passwordAlertSuccess = true;
       showChangePassword = false;
     } catch (error) {
@@ -215,16 +213,15 @@
     border-left-width: 5px;
   }
   .alert.success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-    border-left-color: #28a745;
+    background-color: #d4edda; /* Light green background */
+    color: #155724; /* Dark green text */
+    border: 1px solid #c3e6cb; /* Light green border */
+    border-left-color: #28a745; /* Dark green border-left */
   }
   .alert.failure {
-    background-color: #fdecea;
-    color: #a94442;
-    border: 1px solid #ebccd1;
-    border-left-color: #a94442;
+    background-color: #fdecea; /* Light red background */
+    color: #a94442; /* Dark red text */
+    border: 1px solid #ebccd1; /* Light red border */
+    border-left-color: #a94442; /* Dark red border-left */
   }
 </style>
-
