@@ -47,7 +47,7 @@
 
   async function validateEmail() {
     try {
-      const response = await axios.patch(ApiConstants.Auth.UPDATE_EMAIL, {
+      await axios.patch(ApiConstants.Auth.UPDATE_EMAIL, {
         newEmail: email,
       });
       emailAlert = "Email successfully updated! Please log in again to continue.";
@@ -65,13 +65,12 @@
 
   async function validateUsername() {
     try {
-      const response = await axios.patch(ApiConstants.Auth.UPDATE_USERNAME, {
+      await axios.patch(ApiConstants.Auth.UPDATE_USERNAME, {
         newUsername: username,
       });
       usernameAlert = "Username successfully updated!";
       usernameAlertSuccess = true;
       showChangeUsername = false;
-      alert("Username updated successfully");
     } catch (error) {
       usernameAlert = error.response?.data?.message || "Failed to update username";
       usernameAlertSuccess = false;
@@ -80,12 +79,11 @@
 
   async function validatePassword() {
     try {
-      const response = await axios.patch(ApiConstants.Auth.UPDATE_PASSWORD, {
+      await axios.patch(ApiConstants.Auth.UPDATE_PASSWORD, {
         oldPassword,
         newPassword,
       });
       passwordAlert = "Password successfully updated!";
-      alert("Password updated successfully");
       passwordAlertSuccess = true;
       showChangePassword = false;
     } catch (error) {
@@ -221,17 +219,9 @@
     border-left-color: #28a745;
   }
   .alert.failure {
-<<<<<<< HEAD
-    background-color: #fdecea;
-    color: #a94442;
-    border: 1px solid #ebccd1;
-    border-left-color: #a94442;
-=======
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
     border-left-color: #dc3545;
->>>>>>> 64d0335445d48ddbcede105db68d1935de4d48f2
   }
 </style>
-

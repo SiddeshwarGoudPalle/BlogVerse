@@ -77,7 +77,7 @@
       <ul class="space-y-6">
         {#each blogs as blog}
           <li
-            class="bg-white shadow-lg rounded-lg p-6 border border-gray-200 hover:bg-gray-50 transition duration-300 ease-in-out"
+            class="bg-gray shadow-lg rounded-lg p-6 border border-yellow-300 hover:bg-gray-50 transition duration-300 ease-in-out"
           >
             <h2 class="text-2xl font-semibold text-gray-800">{blog.title}</h2>
             <p class="text-gray-700 mt-2">{blog.content}</p>

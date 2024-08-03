@@ -85,11 +85,14 @@
   });
 </script>
 
-<div class="p-8 rounded-lg shadow-md my-2">
-  <div class="bg-gray-100 py-8 px-4 mx-auto max-w-screen-xl">
-    <h1 class="text-3xl font-bold mb-6 antialiased text-center">
-      Browse Blogs
-    </h1>
+<section id="browse-blogs" class="bg-gray-100 p-8">
+  <div class="container mx-auto px-4 max-w-3xl">
+    <div class="bg-yellow-300 p-6  shadow-lg mb-8 flex flex-col md:flex-row items-center  hover:shadow-xl">
+      <h1 class="text-3xl font-bold mb-4 text-gray-800 text-center w-full">
+        Browse Blogs
+      </h1>
+    </div>
+
     <div class="flex flex-col md:flex-row items-center mb-6 gap-4">
       <input
         type="text"
@@ -108,18 +111,18 @@
         <option value="desc">Price (Highest to Lowest)</option>
       </select>
     </div>
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-    >
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {#if blogs.length === 0}
         <p class="text-center col-span-full">No blogs found.</p>
       {/if}
       {#each blogs as blog}
         <a
           href="#"
-          class="bg-white p-6 rounded-lg shadow-md border hover:shadow-lg transition-shadow duration-300"
+          class="bg-yellow-300 p-6 rounded-lg shadow-lg mb-8 transition-transform transform hover:scale-105 hover:shadow-xl"
+          on:click={() => goToBlogPage(blog.id)}
         >
-          <h2 class="text-2xl font-semibold mb-2">{blog.title}</h2>
+          <h2 class="text-2xl font-semibold mb-2 text-gray-800">{blog.title}</h2>
           <p class="text-gray-700 mb-4">{blog.content}</p>
           <p class="text-indigo-600 font-bold">Price: {blog.price} ETH</p>
           <p class="text-gray-500">Genre: {blog.genre}</p>
@@ -127,5 +130,4 @@
       {/each}
     </div>
   </div>
-</div>
-
+</section>

@@ -12,8 +12,8 @@
 <nav>
   <div class="container mx-auto flex items-center justify-between">
     <!-- Logo -->
-    <div class="flex items-center space-x-4">
-  <img src="/Logo.png" alt="Logo" class="h-10 w-10">
+    <div class="flex items-center space-x-4"    >
+  <img src="/Logo.png"  alt="Logo" class="h-10 w-10">
   <span class="text-xl font-semibold text-slate-950">Blog Verse</span>
     </div>
     <!-- Navigation Links -->
@@ -28,4 +28,5 @@
     </div>
   </div>
 </nav>
+
 

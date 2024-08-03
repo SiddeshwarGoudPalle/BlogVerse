@@ -61,7 +61,7 @@
   {/if}
 
   <form on:submit={handleSubmit} class="p-8 rounded-lg shadow-lg hover:shadow-xl">
-    <div class="bg-yellow-300 py-4 px-4 mx-auto max-w-screen-xl rounded-lg shadow-lg">
+    <div class="bg-yellow-300 py-4 px-4 mx-auto max-w-screen-xl shadow-lg">
       <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Create a New Blog</h1>
 
       <div class="mb-4">
@@ -77,21 +77,21 @@
         />
       </div>
 
-      <div class="mb-4">
+      <div class="mb-0">
         <label for="content" class="block text-gray-700 text-sm font-bold mb-2">Content</label>
         <textarea
           id="content"
           name="content"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-64"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-44"
           bind:value={content}
           placeholder="Enter blog content"
           required
         ></textarea>
       </div>
 
-      <div class="p-4 bg-gray-100 rounded-lg shadow-lg">
-        <div class="flex items-center mb-4">
-          <label class="mr-4">
+      <div class="p-4 mb-4 bg-gray-100 rounded-lg shadow-lg h-15 ">
+        <div class="flex items-center mb-2">
+          <label class="mr-8">
             <input
               type="radio"
               name="pricing"
@@ -116,12 +116,12 @@
         </div>
 
         {#if selectedOption === "paid"}
-          <div class="mt-4">
+          <div class="mt-8">
             <input
               type="number"
               id="price"
               name="price"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="shadow appearance-none border rounded w-full py-6 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "
               bind:value={price}
               placeholder="Enter price in ETH"
               required
@@ -136,7 +136,7 @@
           type="text"
           id="genre"
           name="genre"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border rounded mb-8 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           bind:value={genre}
           placeholder="Enter blog genre"
           required
