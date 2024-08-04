@@ -4,6 +4,7 @@ import NeucronSDK from "neucron-sdk";
 /** @type {import('./$types').Actions} */
 export const actions = {
   login: async ({ request }) => {
+    console.log("Logging in...!!")
     const data = await request.formData();
 
     const neucron = new NeucronSDK();

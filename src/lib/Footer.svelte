@@ -8,15 +8,11 @@
     class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 sm:mt-0"
   >
     <li>
-      <a
-        href="http://localhost:5173/AboutUs"
-        class="hover:underline me-4 md:me-6">About</a
-      >
+      <a href="../routes/AboutUs" class="hover:underline me-4 md:me-6">About</a>
     </li>
     <li>
-      <a
-        href="http://localhost:5173/SignUp"
-        class="hover:underline me-4 md:me-6">Register with us</a
+      <a href="../routes/auth/Register" class="hover:underline me-4 md:me-6"
+        >Register with us</a
       >
     </li>
   </ul>

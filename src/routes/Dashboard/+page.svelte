@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import custom_axios from "../../axios/AxiosSetup";
-  import { goto } from "$app/navigation"; // SvelteKit's built-in navigation function
+  import { goto } from "$app/navigation";
 
   type Blog = {
     id: string;
@@ -13,7 +13,7 @@
 
   let recentBlogs: Blog[] = [];
   let filteredBlogs: Blog[] = [];
-  const categories = ["Tech", "Health", "Finance", "Travel"];
+  let categories: string[] = []; // Define the type as string array
   const notifications = ["Notification 1", "Notification 2"];
   let selectedCategory: string | null = null;
   const limit = 3; // Define the number of recent blogs you want to display
@@ -21,8 +21,9 @@
   // Fetch recent blogs on component mount
   onMount(async () => {
     try {
-      const response = await custom_axios.get("/api/blogs/"); // Fetch all recent blogs
+      const response = await custom_axios.get("/api/blogs/");
       recentBlogs = response.data.slice(0, limit); // Limit the number of blogs on the frontend
+      await getUniqueGenres(); // Fetch categories as well
     } catch (error) {
       console.error("Error fetching recent blogs:", error);
     }
@@ -35,11 +36,19 @@
         params: { genre },
       });
       filteredBlogs = response.data;
-      if (filteredBlogs.length === 0) {
-        filteredBlogs = [];
-      }
     } catch (error) {
       console.error(`Error fetching blogs by genre (${genre}):`, error);
+      filteredBlogs = []; // Ensure filteredBlogs is always an array
+    }
+  }
+
+  async function getUniqueGenres() {
+    try {
+      const response = await custom_axios.get("/api/blogs/search/unique-genre");
+      categories = response.data; // Assume response.data is an array of genres
+    } catch (error) {
+      console.error("Error fetching unique genres:", error);
+      categories = []; // Ensure categories is always an array
     }
   }
 
@@ -54,6 +63,18 @@
 
   function isBlogFree(blog: Blog): boolean {
     return blog.price === 0;
+  }
+
+  function getTruncatedContent(content: string): string {
+    const words = content.split(" ");
+    if (words.length > 30) {
+      return words.slice(0, 30).join(" ") + "..."; // Truncate and add ellipsis
+    }
+    return content;
+  }
+
+  function shouldShowReadMore(content: string): boolean {
+    return content.split(" ").length > 30;
   }
 </script>
 
@@ -96,19 +117,21 @@
         <ul>
           {#each recentBlogs as blog}
             <li
-              class="mb-4 bg-white p-4 rounded shadow cursor-pointer transition-transform transform hover:scale-105"
+              class="mb-4 bg-white p-4 rounded-lg shadow-md hover:shadow-xl cursor-pointer transition-transform transform hover:scale-105"
               on:click={() => handleBlogClick(blog.id)}
             >
-              <h3 class="text-lg font-semibold">{blog.title}</h3>
-              {#if isBlogFree(blog)}
-                <p>{blog.content}</p>
-              {:else}
-                <p class="text-sm text-gray-600">Price: ${blog.price}</p>
-                <button
-                  class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              <h3 class="text-lg font-semibold mb-2">{blog.title}</h3>
+              <p class="text-gray-700 mb-2">
+                {getTruncatedContent(blog.content)}
+              </p>
+              {#if shouldShowReadMore(blog.content)}
+                <a
+                  href="#"
+                  class="text-blue-500 hover:underline"
+                  on:click={() => handleBlogClick(blog.id)}
                 >
-                  Pay to View
-                </button>
+                  Read More
+                </a>
               {/if}
             </li>
           {/each}
@@ -125,19 +148,21 @@
             <ul>
               {#each filteredBlogs as blog}
                 <li
-                  class="mb-4 bg-white p-4 rounded shadow cursor-pointer transition-transform transform hover:scale-105"
+                  class="mb-4 bg-white p-4 rounded-lg shadow-md hover:shadow-xl cursor-pointer transition-transform transform hover:scale-105"
                   on:click={() => handleBlogClick(blog.id)}
                 >
-                  <h3 class="text-lg font-semibold">{blog.title}</h3>
-                  {#if isBlogFree(blog)}
-                    <p>{blog.content}</p>
-                  {:else}
-                    <p class="text-sm text-gray-600">Price: ${blog.price}</p>
-                    <button
-                      class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  <h3 class="text-lg font-semibold mb-2">{blog.title}</h3>
+                  <p class="text-gray-700 mb-2">
+                    {getTruncatedContent(blog.content)}
+                  </p>
+                  {#if shouldShowReadMore(blog.content)}
+                    <a
+                      href="#"
+                      class="text-blue-500 hover:underline"
+                      on:click={() => handleBlogClick(blog.id)}
                     >
-                      Pay to View
-                    </button>
+                      Read More
+                    </a>
                   {/if}
                 </li>
               {/each}
@@ -151,4 +176,13 @@
 
 <style>
   /* Add any additional custom styles here */
+  /* Example styles for enhancing visual appeal */
+  button {
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+  }
+  button:hover {
+    background-color: #434343;
+  }
 </style>

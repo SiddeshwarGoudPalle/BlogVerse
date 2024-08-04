@@ -26,7 +26,7 @@
   let hasPaid = false;
   let showPaymentForm = false;
   let amount: number = 0;
-
+  let showSuccess = false;
   // Extract blogId from the URL
   $: {
     const unsubscribe = page.subscribe((value) => {
@@ -48,9 +48,7 @@
   // Fetch blog details
   async function fetchBlogDetails() {
     try {
-      const response = await custom_axios.get(
-        `http://localhost:3000/api/blogs/${blogId}`
-      );
+      const response = await custom_axios.get(`/api/blogs/${blogId}`);
       blog = response.data;
     } catch (error) {
       console.error("Error fetching blog details:", error);
@@ -60,9 +58,7 @@
   // Check if user has paid for the blog
   async function checkPaymentStatus() {
     try {
-      const response = await custom_axios.get(
-        `http://localhost:3000/payments/user/${userId}`
-      );
+      const response = await custom_axios.get(`/payments/user/${userId}`);
       hasPaid = response.data.some((payment) => payment.blogId === blogId);
     } catch (error) {
       console.error("Error checking payment status:", error);
@@ -82,12 +78,13 @@
   // Handle payment submission
   async function handlePayment(paymentAmount: number) {
     try {
-      await custom_axios.post("http://localhost:3000/payments/pay-to-view", {
+      await custom_axios.post("/payments/pay-to-view", {
         userId,
         blogId: blog?.id,
         amount: paymentAmount,
       });
       hasPaid = true;
+      handleFormSuccess();
       showPaymentForm = false;
       invalidate("form"); // Invalidate the form to reflect changes
     } catch (error) {
@@ -101,13 +98,23 @@
       handlePayment(form?.amount);
     }
   }
+  function handleFormSuccess() {
+    showSuccess = true;
+    setTimeout(() => {
+      showSuccess = false;
+    }, 2000); // 2 seconds timeout
+  }
 </script>
 
 <div class="container mx-auto p-8">
   {#if blog}
     <div class="blog-details bg-yellow-300 p-8 rounded-lg shadow-lg">
-      {#if form?.success}
-        <h1 class="text-green-500">{form?.success}</h1>
+      {#if showSuccess}
+        <h1
+          class="text-green-900 bg-green-200 text-center p-4 border-l-4 border-l-green-600"
+        >
+          The Payment to the blog is successful
+        </h1>
       {/if}
       <h1 class="title text-4xl font-bold mb-6 text-center text-blue-900">
         {blog.title}

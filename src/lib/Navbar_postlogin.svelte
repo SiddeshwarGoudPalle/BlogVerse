@@ -8,13 +8,15 @@
   }
 </script>
 
-<nav>
+<nav class="bg-white border-gray-200 m-5 pl-24 pr-5">
   <div class="container mx-auto flex items-center justify-between">
     <!-- Logo -->
-    <div class="flex items-center space-x-4">
-      <img src="/Logo.png" alt="Logo" class="h-10 w-10" />
-      <span class="text-xl font-semibold text-slate-950">Blog Verse</span>
-    </div>
+    <a href="../Dashboard">
+      <div class="flex items-center space-x-4">
+        <img src="/Logo.png" alt="Logo" class="h-10 w-10" />
+        <span class="text-xl font-semibold text-slate-950">Blog Verse</span>
+      </div>
+    </a>
     <!-- Navigation Links -->
     <div class="flex items-center space-x-8">
       <a href="../Dashboard" class="text-slate-950 hover:text-blue-700"
@@ -29,14 +31,24 @@
       <a href="../MyBlogs" class="text-slate-950 hover:text-blue-700"
         >My Blogs</a
       >
-      <a href="../Profile" class="text-slate-950 hover:text-blue-700">Profile</a
+      <a
+        href="../Profile"
+        class="text-slate-950 hover:text-blue-700 flex items-center"
       >
-      <a href="../Settings" class="text-slate-950 hover:text-blue-700"
-        >Settings</a
+        <img src="/profile.svg" alt="Profile" class="h-6 w-6 mr-2" />
+      </a>
+      <a
+        href="../Settings"
+        class="text-slate-950 hover:text-blue-700 flex items-center"
       >
-      <button on:click={handleLogout} class="text-slate-950 hover:text-blue-700"
-        >Logout</button
+        <img src="/settings.svg" alt="Settings" class="h-6 w-6 mr-2" />
+      </a>
+      <button
+        on:click={handleLogout}
+        class="text-slate-950 hover:text-blue-700 flex items-center"
       >
+        <img src="/logout.svg" alt="Logout" class="h-6 w-6 mr-2" />
+      </button>
     </div>
   </div>
 </nav>

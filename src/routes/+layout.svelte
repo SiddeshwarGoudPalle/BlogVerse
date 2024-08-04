@@ -1,12 +1,11 @@
 <script>
-  import { onMount } from 'svelte';
-  import Navbar from '$lib/Navbar.svelte';
-  import NavbarPostlogin from '$lib/Navbar_postlogin.svelte';
-  import Footer from '$lib/Footer.svelte';
+  import { onMount } from "svelte";
+  import Navbar from "$lib/Navbar.svelte";
+  import NavbarPostlogin from "$lib/Navbar_postlogin.svelte";
+  import Footer from "$lib/Footer.svelte";
   import "../app.css";
-  import { get } from 'svelte/store';
-  import { isAuthenticated } from '../stores/user';
-  import { checkAuthentication } from '../stores/user';
+  import { isAuthenticated } from "../stores/user";
+  import { checkAuthentication } from "../stores/user";
 
   onMount(() => {
     checkAuthentication();

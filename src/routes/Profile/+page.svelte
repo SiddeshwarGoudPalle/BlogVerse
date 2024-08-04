@@ -13,6 +13,8 @@
   let transactionHistory = writable([]);
   let showPopup = writable(false); // Control the visibility of the popup
   let statusMessage = writable(""); // Status message for success or failure
+  let alertClass = writable(""); // CSS class for alert
+  let showAlert = writable(false); // Control alert visibility
 
   // Fetch user details
   async function fetchUserDetails() {
@@ -23,6 +25,7 @@
       fetchUserPayments(userId);
     } catch (error) {
       console.error("Error fetching user details:", error);
+      displayAlert("Error fetching user details.", "error");
     }
   }
 
@@ -33,6 +36,7 @@
       transactionHistory.set(response.data);
     } catch (error) {
       console.error("Error fetching user payments:", error);
+      displayAlert("Error fetching user payments.", "error");
     }
   }
 
@@ -40,25 +44,35 @@
   async function connectWallet() {
     try {
       console.log("Connecting wallet...");
-      const response = await custom_axios.post("/wallet/connect", {
+      const response = await custom_axios.post(`/wallet/connect`, {
         walletAddress: form?.address,
       });
       isWalletConnected.set(true);
-      statusMessage.set("Wallet connected successfully."); // Success message
+      displayAlert("Wallet connected successfully.", "success");
     } catch (error) {
       console.error("Error connecting wallet:", error);
-      statusMessage.set("Failed to connect wallet. Please try again."); // Failure message
+      displayAlert("Failed to connect wallet. Please try again.", "error");
     }
   }
 
   // Toggle popup visibility
   function toggleSignupPopup() {
-    showPopup.update((value) => !value);
+    showPopup.set(!$showPopup);
   }
 
-  // Submit signup form
-  async function submitSignup() {
-    toggleSignupPopup();
+  // Function to display alerts
+  function displayAlert(message: string, type: "success" | "error") {
+    statusMessage.set(message);
+    alertClass.set(
+      type === "success"
+        ? "bg-green-100 border-green-500 text-green-700"
+        : "bg-red-100 border-red-500 text-red-700"
+    );
+    showAlert.set(true);
+
+    setTimeout(() => {
+      showAlert.set(false);
+    }, 2000); // Hide alert after 2 seconds
   }
 
   // Check if login was successful and connect wallet
@@ -92,11 +106,7 @@
     <div class="text-gray-900 text-xl font-semibold">
       Enter Neucron Wallet Credentials to connect the Wallet
     </div>
-    <form
-      method="POST"
-      action="?/login"
-      on:submit|preventDefault={submitSignup}
-    >
+    <form method="post" action="?/login">
       <div class="flex flex-wrap -mx-3 mb-2">
         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
           <label
@@ -163,10 +173,8 @@
   {/if}
 
   <!-- Display status message -->
-  {#if $statusMessage}
-    <div
-      class="mt-4 p-4 bg-green-100 border-l-4 border-green-500 text-green-700"
-    >
+  {#if $showAlert}
+    <div class="mt-4 p-4 border-l-4 {$alertClass}">
       {$statusMessage}
     </div>
   {/if}
@@ -203,11 +211,7 @@
     >
       <div class="bg-white p-6 rounded shadow-lg max-w-sm w-full">
         <h2 class="text-lg font-bold mb-4">Sign Up for Wallet</h2>
-        <form
-          method="POST"
-          action="?/signup"
-          on:submit|preventDefault={submitSignup}
-        >
+        <form method="POST" action="?/signup">
           <div class="flex flex-wrap -mx-3 mb-2">
             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
               <label

@@ -14,16 +14,25 @@
   let searchQuery: string = "";
   let sortOption: string = "";
   let genreOption: string = "";
+  let genres: string[] = []; // Array to store unique genres
 
   // Fetch all blogs on component mount
   async function fetchBlogs() {
     try {
-      const response = await custom_axios.get(
-        "http://localhost:3000/api/blogs"
-      );
+      const response = await custom_axios.get("/api/blogs");
       blogs = response.data;
     } catch (error) {
       console.error("Error fetching blogs:", error);
+    }
+  }
+
+  // Fetch unique genres
+  async function fetchGenres() {
+    try {
+      const response = await custom_axios.get("/api/blogs/search/unique-genre");
+      genres = response.data; // Assume response.data is an array of genres
+    } catch (error) {
+      console.error("Error fetching genres:", error);
     }
   }
 
@@ -31,12 +40,9 @@
   async function searchBlogs() {
     try {
       if (searchQuery.trim()) {
-        const response = await custom_axios.get(
-          "http://localhost:3000/api/blogs/search/title",
-          {
-            params: { title: searchQuery },
-          }
-        );
+        const response = await custom_axios.get("/api/blogs/search/title", {
+          params: { title: searchQuery },
+        });
         blogs = response.data;
       } else {
         fetchBlogs();
@@ -51,7 +57,7 @@
     try {
       if (sortOption) {
         const response = await custom_axios.get(
-          "http://localhost:3000/api/blogs/sorted-by-price",
+          "/api/blogs/search/price/sort",
           {
             params: { order: sortOption },
           }
@@ -69,12 +75,9 @@
   async function filterBlogsByGenre() {
     try {
       if (genreOption) {
-        const response = await custom_axios.get(
-          "http://localhost:3000/api/blogs/search/genre",
-          {
-            params: { genre: genreOption },
-          }
-        );
+        const response = await custom_axios.get("/api/blogs/search/genre", {
+          params: { genre: genreOption },
+        });
         blogs = response.data;
       } else {
         fetchBlogs();
@@ -89,19 +92,20 @@
     goto(`/BlogPage/${blogId}`);
   }
 
-  // Fetch blogs initially
+  // Fetch blogs and genres initially
   onMount(() => {
     fetchBlogs();
+    fetchGenres();
   });
 </script>
 
-<section id="browse-blogs" class="bg-gray-100 p-8">
-  <div class="container mx-auto px-4 max-w-3xl">
+<section id="browse-blogs" class="bg-gray-50 p-8">
+  <div class="container mx-auto px-4 max-w-4xl">
     <div
-      class="bg-yellow-300 p-6 shadow-lg mb-8 flex flex-col md:flex-row items-center hover:shadow-xl"
+      class="bg-yellow-300 p-6 shadow-lg mb-8 flex flex-col md:flex-row items-center rounded-lg hover:shadow-xl transition-shadow"
     >
-      <h1 class="text-3xl font-bold mb-4 text-gray-800 text-center w-full">
-        Browse Blogs
+      <h1 class="text-4xl font-bold mb-4 text-gray-800 text-center w-full">
+        Explore Our Blogs
       </h1>
     </div>
 
@@ -109,12 +113,12 @@
       <input
         type="text"
         placeholder="Search by title..."
-        class="shadow appearance-none border rounded w-full md:w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        class="shadow-md appearance-none border rounded w-full md:w-2/5 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         bind:value={searchQuery}
         on:input={searchBlogs}
       />
       <select
-        class="shadow appearance-none border rounded w-full md:w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        class="shadow-md appearance-none border rounded w-full md:w-1/5 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         bind:value={sortOption}
         on:change={sortBlogs}
       >
@@ -123,15 +127,14 @@
         <option value="desc">Price (Highest to Lowest)</option>
       </select>
       <select
-        class="shadow appearance-none border rounded w-full md:w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        class="shadow-md appearance-none border rounded w-full md:w-1/5 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         bind:value={genreOption}
         on:change={filterBlogsByGenre}
       >
         <option value="">Filter by Genre</option>
-        <option value="Tech">Tech</option>
-        <option value="Health">Health</option>
-        <option value="Finance">Finance</option>
-        <option value="Travel">Travel</option>
+        {#each genres as genre}
+          <option value={genre}>{genre}</option>
+        {/each}
       </select>
     </div>
 
@@ -139,26 +142,43 @@
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
     >
       {#if blogs.length === 0}
-        <p class="text-center col-span-full">No blogs found.</p>
+        <p class="text-center col-span-full text-gray-500">No blogs found.</p>
       {/if}
       {#each blogs as blog}
         <div
-          class="bg-yellow-300 p-6 rounded-lg shadow-lg mb-8 transition-transform transform hover:scale-105 hover:shadow-xl cursor-pointer"
+          class="bg-white p-6 rounded-lg shadow-md mb-8 transition-transform transform hover:scale-105 hover:shadow-xl cursor-pointer"
           on:click={() => handleBlogClick(blog.id)}
         >
-          <h2 class="text-2xl font-semibold mb-2 text-gray-800">
+          <h2 class="text-xl font-semibold mb-2 text-gray-800">
             {blog.title}
           </h2>
           {#if blog.price > 0}
-            <p class="text-gray-700 mb-4">
-              This blog requires payment to view.
-            </p>
+            <p class="text-gray-700 mb-4">Requires payment to view</p>
           {/if}
-          <p class="text-indigo-600 font-bold">Price: {blog.price} ETH</p>
-          <p class="text-gray-500">Genre: {blog.genre}</p>
-          <p class="text-indigo-600 underline">Read More</p>
+          <p class="text-indigo-600 font-bold mb-2">Price: {blog.price} ETH</p>
+          <p class="text-gray-600 mb-4">Genre: {blog.genre}</p>
+          <p class="text-blue-500 font-semibold hover:underline">Read More</p>
         </div>
       {/each}
     </div>
   </div>
 </section>
+
+<style>
+  /* Add additional custom styles here */
+  .container {
+    max-width: 90%;
+  }
+
+  .hover\:shadow-xl:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .hover\:scale-105:hover {
+    transform: scale(1.05);
+  }
+
+  .text-blue-500:hover {
+    color: #2563eb;
+  }
+</style>

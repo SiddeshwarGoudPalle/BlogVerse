@@ -141,7 +141,7 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
     <!-- Blog Item 1 -->
     <a
-      href="/BlogPage/[blogId]"
+      href="auth/Login"
       class="bg-gray-100 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
     >
       <h3 class="text-xl font-semibold mb-2 text-gray-700">
@@ -158,7 +158,7 @@
 
     <!-- Blog Item 2 -->
     <a
-      href="/BlogPage/[blogId]"
+      href="auth/Login"
       class="bg-gray-100 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105"
     >
       <h3 class="text-xl font-semibold mb-2 text-gray-700">
