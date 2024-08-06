@@ -15,6 +15,7 @@
         email,
         password,
       });
+      console.log("res", response);
 
       localStorage.setItem("token", response.data.token);
       message = "Login successful!";
