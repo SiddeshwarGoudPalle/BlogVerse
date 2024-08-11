@@ -122,7 +122,7 @@
             >
               <h3 class="text-lg font-semibold mb-2">{blog.title}</h3>
               <p class="text-gray-700 mb-2">
-                {getTruncatedContent(blog.content)}
+                {@html getTruncatedContent(blog.content)}
               </p>
               {#if shouldShowReadMore(blog.content)}
                 <a
@@ -153,7 +153,7 @@
                 >
                   <h3 class="text-lg font-semibold mb-2">{blog.title}</h3>
                   <p class="text-gray-700 mb-2">
-                    {getTruncatedContent(blog.content)}
+                    {@html getTruncatedContent(blog.content)}
                   </p>
                   {#if shouldShowReadMore(blog.content)}
                     <a

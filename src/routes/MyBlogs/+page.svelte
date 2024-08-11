@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { jwtDecode } from "jwt-decode";
   import custom_axios from "../../axios/AxiosSetup";
+  import { goto } from "$app/navigation";
 
   interface UserInfo {
     userId: string;
@@ -25,6 +26,10 @@
   let blogs: Blog[] = [];
   let userEmail: string | null = null;
   let errorMessage: string | null = null;
+
+  function handleBlogClick(blogId: string) {
+    goto(`/BlogPage/${blogId}`);
+  }
 
   onMount(async () => {
     const token = localStorage.getItem("token");
@@ -53,6 +58,14 @@
       errorMessage = "No token found.";
     }
   });
+
+  function getTruncatedContent(content: string): string {
+    const words = content.split(" ");
+    if (words.length > 30) {
+      return words.slice(0, 30).join(" ") + "..."; // Truncate and add ellipsis
+    }
+    return content;
+  }
 </script>
 
 {#if errorMessage}
@@ -76,10 +89,13 @@
       <ul class="space-y-6">
         {#each blogs as blog}
           <li
-            class="bg-gray shadow-lg rounded-lg p-6 border-4 border-yellow-300 hover:bg-gray-50 transition duration-300 ease-in-out"
+            class="bg-gray shadow-lg rounded-lg p-6 border-4 border-yellow-300 hover:bg-gray-50 rounded-lg shadow-md hover:shadow-xl cursor-pointer transition-transform transform hover:scale-105"
+            on:click={() => handleBlogClick(blog.id)}
           >
             <h2 class="text-2xl font-semibold text-gray-800">{blog.title}</h2>
-            <p class="text-gray-700 mt-2">{blog.content}</p>
+            <p class="text-gray-700 mt-2">
+              {@html getTruncatedContent(blog.content)}
+            </p>
             <div class="mt-4">
               <p class="text-gray-500">
                 Genre: <span class="font-medium text-gray-700"

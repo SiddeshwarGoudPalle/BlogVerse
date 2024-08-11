@@ -105,6 +105,25 @@
             required
           />
         </div>
+        <div class="mb-4">
+          <label for="genre" class="block text-gray-700 text-sm font-bold mb-2"
+            >Genre</label
+          >
+          <input
+            type="text"
+            id="genre"
+            name="genre"
+            class="shadow appearance-none border rounded w-full mb-5 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            bind:value={genre}
+            placeholder="Enter blog genre"
+            required
+          />
+        </div>
+
+        <p class="bg-gray-100 p-2 rounded-lg text-center mb-5">
+          You can format your Blog using the HTML tags, if you wish to like
+          using pre, b, u, hr, br etc... You can use Styling too
+        </p>
 
         <div class="mb-0">
           <label
@@ -114,7 +133,7 @@
           <textarea
             id="content"
             name="content"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-44"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline h-44 whitespace-pre-wrap"
             bind:value={content}
             placeholder="Enter blog content"
             required
@@ -160,21 +179,6 @@
               />
             </div>
           {/if}
-        </div>
-
-        <div class="mb-4">
-          <label for="genre" class="block text-gray-700 text-sm font-bold mb-2"
-            >Genre</label
-          >
-          <input
-            type="text"
-            id="genre"
-            name="genre"
-            class="shadow appearance-none border rounded mb-8 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            bind:value={genre}
-            placeholder="Enter blog genre"
-            required
-          />
         </div>
 
         <div class="mb-4 items-center">

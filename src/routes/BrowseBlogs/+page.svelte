@@ -92,6 +92,18 @@
     goto(`/BlogPage/${blogId}`);
   }
 
+  function getTruncatedContent(content: string): string {
+    const words = content.split(" ");
+    if (words.length > 30) {
+      return words.slice(0, 30).join(" ") + "..."; // Truncate and add ellipsis
+    }
+    return content;
+  }
+
+  function shouldShowReadMore(content: string): boolean {
+    return content.split(" ").length > 30;
+  }
+
   // Fetch blogs and genres initially
   onMount(() => {
     fetchBlogs();
@@ -152,12 +164,14 @@
           <h2 class="text-xl font-semibold mb-2 text-gray-800">
             {blog.title}
           </h2>
-          {#if blog.price > 0}
-            <p class="text-gray-700 mb-4">Requires payment to view</p>
+          <p class="text-gray-700 mb-2">
+            {@html getTruncatedContent(blog.content)}
+          </p>
+          {#if shouldShowReadMore(blog.content)}
+            <p class="text-blue-500 font-semibold hover:underline">Read More</p>
           {/if}
           <p class="text-indigo-600 font-bold mb-2">Price: {blog.price} ETH</p>
           <p class="text-gray-600 mb-4">Genre: {blog.genre}</p>
-          <p class="text-blue-500 font-semibold hover:underline">Read More</p>
         </div>
       {/each}
     </div>

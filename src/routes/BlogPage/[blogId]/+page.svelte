@@ -130,7 +130,7 @@
           <h1 class="title text-3xl font-bold mb-6 text-center text-blue-900">
             Enjoy the Blog !!
           </h1>
-          <p class="mb-4">{blog.content}</p>
+          <p class="mb-4 bg-gray-100 p-4 rounded-lg">{@html blog.content}</p>
           {#if blog.price === 0 && blog.authorId !== userId}
             <form method="POST" action="?/pay">
               <div class="flex flex-wrap -mx-3 mb-2">

@@ -103,8 +103,9 @@
   </div>
 
   <div class="mt-4">
-    <div class="text-gray-900 text-xl font-semibold">
-      Enter Neucron Wallet Credentials to connect the Wallet
+    <div class="text-gray-900 text-xl font-semibold mb-5">
+      Enter Neucron Wallet Credentials to connect the Wallet or to view the
+      Wallet Balance and Wallet Address
     </div>
     <form method="post" action="?/login">
       <div class="flex flex-wrap -mx-3 mb-2">
